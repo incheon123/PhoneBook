@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PhoneBook</class>
+ <widget class="QMainWindow" name="PhoneBook">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>907</width>
+    <height>575</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PhoneBook</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>907</width>
+      <height>553</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>907</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="page">
+     <widget class="QLineEdit" name="user_id">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>100</y>
+        <width>214</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>50</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>70</y>
+        <width>91</width>
+        <height>109</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>User ID</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>160</y>
+        <width>101</width>
+        <height>109</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>User PW</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="user_pw">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>190</y>
+        <width>214</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>50</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>274</x>
+        <y>300</y>
+        <width>340</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sign in</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>360</y>
+        <width>160</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Forget Account</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>360</y>
+        <width>160</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Sigin up</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_2"/>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>907</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
