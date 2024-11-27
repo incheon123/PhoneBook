@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QString>
+#include <QSql>
+#include <QSqlDatabase>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +26,7 @@ private slots:
 
 private:
     Ui::PhoneBook *ui;
+    QSqlDatabase db;
     void switchPage();
 
 private:
