@@ -2,19 +2,50 @@
 #include "./ui_phonebook.h"
 
 #include <QDebug>
-#include <QtSql/QSqlDatabase>
+#include <QSqlQuery>
 
 PhoneBook::PhoneBook(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::PhoneBook)
 {
     ui->setupUi(this);
-    qDebug() << QSqlDatabase::drivers();
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    qDebug() << db.drivers();
+
+    db.setHostName("129.154.51.67");
+    db.setDatabaseName("product");
+    db.setUserName("taekhyun");
+    db.setPassword("1234");
+    db.setPort(3306);
+
+    db.open();
+
+    QSqlQuery sql;
+    sql.exec("select * from food;");
+
+    if(sql.exec())
+    {
+        qDebug() << "success sql executing";
+
+        while (sql.next())
+        {
+            // Retrieve Values from select statement
+            QString inputWord = sql.value(0).toString();
+            QString wordDefinition = sql.value(1).toString();
+
+            // Display values
+            qDebug() << wordDefinition;
+        }
+    } else {
+        qDebug() << "query failed to execute";
+    }
 }
 
 PhoneBook::~PhoneBook()
 {
     delete ui;
+    db.close();
 }
 
 void PhoneBook::switchPage()
