@@ -6,6 +6,13 @@
 #include <QString>
 #include <QSql>
 #include <QSqlDatabase>
+#include <QMessageBox>
+
+#include "db.h"
+
+#define SIGNIN 1
+#define FIND_ACCOUNT 2
+#define SIGNUP 3
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,17 +27,34 @@ class PhoneBook : public QMainWindow
 public:
     PhoneBook(QWidget *parent = nullptr);
     ~PhoneBook();
+    Db *db;
 
 private slots:
-    void on_pushButton_clicked();
+    void on_signin_clicked();
+
+    void on_signup_clicked();
+
+    void on_forgetAccount_clicked();
+
+    void on_signup_user_id_dp_chk_btn_clicked();
+
+    void on_signup_submit_btn_clicked();
 
 private:
     Ui::PhoneBook *ui;
-    QSqlDatabase db;
-    void switchPage();
+    void switchPage(int p);
+    bool validUserId();
+    bool validUserPw();
+    bool validUserPhoneNum();
+    void execMsgBox(QString content);
 
 private:
     QString id = "opportunity13";
     QString pw = "rlghlek153@";
+
+    QString signup_userId;
+    QString signup_userPw;
+    QString signup_phone_number;
+    bool duplicateChk = 0;
 };
 #endif // PHONEBOOK_H
