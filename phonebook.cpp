@@ -3,6 +3,8 @@
 
 #include <QDebug>
 #include <QSqlQuery>
+#include <QUiLoader>
+#include <QFile>
 
 const int WIDGET_SIZE = 3;
 
@@ -11,9 +13,9 @@ PhoneBook::PhoneBook(QWidget *parent)
     , ui(new Ui::PhoneBook)
 {
     ui->setupUi(this);
+    db = new Db("129.154.51.67", "product", "taekhyun", "1234", 3306);
 
-    db = new Db();
-
+    QObject::connect(this, &PhoneBook::click_back, this, &PhoneBook::switchPage);
 }
 
 PhoneBook::~PhoneBook()
@@ -22,6 +24,9 @@ PhoneBook::~PhoneBook()
     db->close();
 }
 
+// PhoneBook getPhoneBook(){
+
+// }
 
 /*
     1p is sigin-in
@@ -30,6 +35,7 @@ PhoneBook::~PhoneBook()
 */
 void PhoneBook::switchPage(int p)
 {
+    qDebug() << "switchPage()";
     QStackedWidget *stack = ui->stackedWidget;
 
     if(p >= 1 && p <= WIDGET_SIZE){
@@ -40,18 +46,41 @@ void PhoneBook::switchPage(int p)
 
 void PhoneBook::on_signin_clicked()
 {
-    QString user_id = ui->user_id->text();
-    QString user_pw = ui->user_pw->text();
+    QString user_id = ui->login_userId->text();
+    QString user_pw = ui->login_userPw->text();
 
-    if (user_id == id) {
+    qDebug() << user_id << '\n';
+    qDebug() << user_id << '\n';
+
+    /* 데이터 베이스에 있는 계정과 비밀번호와 비교 */
+    ui->signin_userIdLabel->setText("");
+    ui->signin_userPwLabel->setText("");
+    if(user_id.isEmpty()){
+        ui->signin_userIdLabel->setText("아이디를 입력해주세요");
+        return;
+    }
+    if(user_pw.isEmpty()){
+        ui->signin_userPwLabel->setText("비밀번호를 입력해주세요");
+        return;
+    }
+    if ( user_id.compare(db->getUserId(user_id)) != 0) {
         // id is correct
-
-        if (user_pw == pw) {
-            //pw is correct
-        }
+        ui->signin_userIdLabel->setText("아이디가 일치하지 않습니다");
+        return;
+    }
+    if ( user_pw.compare(db->getUserPw(user_pw)) != 0) {
+        ui->signin_userPwLabel->setText("비밀번호가 일치하지 않습니다");
+        return;
     }
 
-    switchPage(SIGNIN);  // to home
+    h = new home;
+    h->save(this);
+    qDebug() << this;
+
+    this->close();
+    h->show();
+
+    // switchPage(SIGNIN);  // to home
 }
 
 void PhoneBook::on_signup_clicked()
@@ -169,3 +198,32 @@ void PhoneBook::execMsgBox(QString content){
 
     return;
 }
+
+
+void PhoneBook::on_submit_clicked()
+{
+    QString userId = ui->findPw_pwInput->text();
+    QString findedPw;
+    if((findedPw = db->findUserPw(userId)).isNull()){
+        ui->findPw_pwLabel->setText("조회되지 않는 아이디입니다");
+        return;
+    }
+
+    ui->findPw_pwLabel->setText(userId + "의 비밀번호는 " + findedPw + "입니다");
+    return;
+}
+
+
+void PhoneBook::on_find_account_back_btn_clicked()
+{
+    qDebug() << "뒤로가기(비밀번호찾기)";
+    emit click_back(1);
+}
+
+
+void PhoneBook::on_signup_back_btn_clicked()
+{
+    qDebug() << "뒤로가기(회원가입)";
+    emit click_back(1);
+}
+
