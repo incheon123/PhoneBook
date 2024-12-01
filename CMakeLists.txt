@@ -11,25 +11,42 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS UiTools)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 set(PROJECT_SOURCES
         main.cpp
         phonebook.cpp
         phonebook.h
         phonebook.ui
-)
 
+)
 
 find_package(Qt6 REQUIRED COMPONENTS Sql)
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(PhoneBook
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        db.h
-        db.cpp
+
+
+        src_h/account_h/login.h
+        src_h/account_h/register.h
+        src_h/account_h/signup.h
+
+        src_c/account_s/register.cpp
+        src_c/account_s/login.cpp
+        src_c/account_s/signup.cpp
+
+        src_h/db_h/db.h
+        src_c/db_s/db.cpp
+
         memo
-        register.h
-        register.cpp
+        home.h home.cpp home.ui
+
+
+
+
+
     )
 else()
     if(ANDROID)
@@ -47,6 +64,8 @@ endif()
 
 target_link_libraries(PhoneBook PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(PhoneBook PRIVATE Qt6::Sql)
+target_link_libraries(PhoneBook PRIVATE Qt6::UiTools)
+target_link_libraries(PhoneBook PRIVATE Qt6::Core)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
