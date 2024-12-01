@@ -13,7 +13,7 @@ PhoneBook::PhoneBook(QWidget *parent)
     , ui(new Ui::PhoneBook)
 {
     ui->setupUi(this);
-    db = new Db("129.154.51.67", "product", "taekhyun", "1234", 3306);
+    db = new Db();
 
     QObject::connect(this, &PhoneBook::click_back, this, &PhoneBook::switchPage);
 }
