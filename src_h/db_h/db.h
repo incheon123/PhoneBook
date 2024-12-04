@@ -7,12 +7,14 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include "../../src_h/user_h/userAccount.h"
+
 class Db : public QObject{
     Q_OBJECT
 
 public:
-    Db(QString hostName, QString databaseName, QString userName, QString password, int port);
-    // ~Db();
+    Db();
+    ~Db();
 
     void close();
     QString login(QString userId, QString userPw);
@@ -21,6 +23,7 @@ public:
     QString getUserId(QString userId);
     QString getUserPw(QString userPw);
     QString findUserPw(QString userId);
+    UserAccount* getUser(QString userId);
 
 private:
 
