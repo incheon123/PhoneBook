@@ -19,7 +19,7 @@
   <property name="styleSheet">
    <string notr="true">QWidget{background-color: rgb(0, 61,102)};</string>
   </property>
-  <widget class="QListWidget" name="listWidget">
+  <widget class="QListWidget" name="index_sideMenu">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -114,6 +114,32 @@ QListWidget::item{
    </item>
    <item>
     <property name="text">
+     <string>statistic</string>
+    </property>
+    <property name="textAlignment">
+     <set>AlignCenter</set>
+    </property>
+    <property name="background">
+     <brush brushstyle="NoBrush">
+      <color alpha="255">
+       <red>0</red>
+       <green>170</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="SolidPattern">
+      <color alpha="255">
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+   </item>
+   <item>
+    <property name="text">
      <string>Logout</string>
     </property>
     <property name="textAlignment">
@@ -138,6 +164,223 @@ QListWidget::item{
      </brush>
     </property>
    </item>
+  </widget>
+  <widget class="QStackedWidget" name="stackedWidget">
+   <property name="geometry">
+    <rect>
+     <x>181</x>
+     <y>0</y>
+     <width>726</width>
+     <height>575</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QStackedWidget{text-align:center;}</string>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="page">
+    <widget class="QWidget" name="gridLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>721</width>
+       <height>561</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0" columnstretch="0">
+      <property name="sizeConstraint">
+       <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+        <item>
+         <widget class="QLabel" name="index_lastLoginDateLabel">
+          <property name="styleSheet">
+           <string notr="true">QLabel{color:white;}</string>
+          </property>
+          <property name="text">
+           <string>마지막 로그인일시 : </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="index_phoneNumLabel">
+          <property name="styleSheet">
+           <string notr="true">QLabel{color:white;}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="0">
+       <widget class="QTableWidget" name="index_table">
+        <property name="minimumSize">
+         <size>
+          <width>689</width>
+          <height>0</height>
+         </size>
+        </property>
+        <attribute name="horizontalHeaderCascadingSectionResizes">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>179</number>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>179</number>
+        </attribute>
+        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>50</number>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>PhoneNumber</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>UserId</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>CreateDate</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1,1">
+        <property name="spacing">
+         <number>7</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="index_addBtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton{background-color: gray; color:black;}</string>
+          </property>
+          <property name="text">
+           <string>add</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="index_deleteBtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton{background-color: gray; color:black;}</string>
+          </property>
+          <property name="text">
+           <string>delete</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="index_updateBtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton{background-color: gray; color:black;}</string>
+          </property>
+          <property name="text">
+           <string>update</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="4" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1,1,0">
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="phoneNumberInput">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit{color:white;}</string>
+          </property>
+          <property name="placeholderText">
+           <string>PhoneNumber</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="NameInput">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit{color:white;}</string>
+          </property>
+          <property name="placeholderText">
+           <string>Name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="userIdInput">
+          <property name="styleSheet">
+           <string notr="true">QLineEdit{color:white;}</string>
+          </property>
+          <property name="placeholderText">
+           <string>UserId</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="index_saveBtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton{background-color: gray; color:black;}</string>
+          </property>
+          <property name="text">
+           <string>저장하기</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0" rowspan="2">
+       <widget class="QLabel" name="index_welcomeLabel">
+        <property name="font">
+         <font>
+          <pointsize>26</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{color: white;}</string>
+        </property>
+        <property name="text">
+         <string>xxx님 환영합니다</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2"/>
   </widget>
  </widget>
  <resources/>
