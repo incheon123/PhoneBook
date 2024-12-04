@@ -1,24 +1,16 @@
 #include "../../src_h/db_h/db.h"
 
-Db::Db(QString hostName, QString databaseName, QString userName, QString password, int port){
-    db = QSqlDatabase::addDatabase("QMYSQL");
-    qDebug() << db.drivers();
-
-    db.setHostName(hostName);
-    db.setDatabaseName(databaseName);
-    db.setUserName(userName);
-    db.setPassword(password);
-    db.setPort(port);
-
+Db::Db(){
+    db = QSqlDatabase::database();  // 기존 db 객체 가져옴
     db.open();
-
     if(db.isOpen())
-        qDebug() << "Db Connection Succeded";
-};
-
-// Db::~Db(){
-//     db.close();
-// }
+        qDebug() << "Database Connection success";
+    else
+        qDebug() << "Database Connection failed";
+}
+Db::~Db(){
+    db.close();
+}
 
 void Db::close(){
     db.close();
@@ -30,9 +22,20 @@ QSqlDatabase Db::getDriver(){
 
 /* */
 QString Db::login(QString userId, QString userPw){
+    QString result = NULL;
     QSqlQuery sql;
 
-    return "1";
+    sql.prepare("select user_id from user where user_id = :userId and user_pw = :userPw");
+    sql.bindValue(":userId", userId);
+    sql.bindValue(":userPw", userPw);
+
+    sql.exec();
+
+    if(sql.next()){
+        result = sql.value(0).toString();
+    }
+    qDebug() << "유저 아이디 조회 결과입니다 ==> " << result;
+    return result;
 }
 
 /* 회원가입 */
@@ -49,7 +52,7 @@ bool Db::signup(QString userId, QString userPw, QString phone_number){
     return sql.numRowsAffected() ? true : false;
 }
 
-/* 유저 아이디 조회 */
+/* 유저 아이디 조회(문제있음) */
 QString Db::getUserId(QString userId){
     QString result = NULL;
     QSqlQuery sql;
@@ -63,24 +66,23 @@ QString Db::getUserId(QString userId){
         result = sql.value(0).toString();
     }
     qDebug() << "유저 아이디 조회 결과입니다 ==> " << result;
-
     return result;
 }
-QString Db::getUserPw(QString userPw){
-    QString result = NULL;
-    QSqlQuery sql;
+// QString Db::getUserPw(QString userPw){
+//     QString result = NULL;
+//     QSqlQuery sql;
 
-    sql.prepare("select user_pw from user where user_pw = :userPw");
-    sql.bindValue(":userPw", userPw);
+//     sql.prepare("select user_pw from user where user_pw = :userPw");
+//     sql.bindValue(":userPw", userPw);
 
-    sql.exec();
-    if(sql.next()){
-        result = sql.value(0).toString();
-    }
-    qDebug() << "유저 비밀번호 조회 결과입니다 ==> " << result;
+//     sql.exec();
+//     if(sql.next()){
+//         result = sql.value(0).toString();
+//     }
+//     qDebug() << "유저 비밀번호 조회 결과입니다 ==> " << result;
 
-    return result;
-}
+//     return result;
+// }
 /* 비밀번호 찾는 함수 */
 QString Db::findUserPw(QString userId){
     QString id = getUserId(userId);
@@ -99,4 +101,23 @@ QString Db::findUserPw(QString userId){
     }
 
     return result;
+}
+
+UserAccount* Db::getUser(QString userId){
+    QSqlQuery sql;
+
+    sql.prepare("select * from user where user_id = :userId");
+    sql.bindValue(":userId", userId);
+    sql.exec();
+
+    UserAccount* ua = UserAccount::getInstance();
+    if(sql.next()){
+        ua->setUserId(sql.value(0).toString());
+        ua->setUserPw(sql.value(1).toString());
+        ua->setUserLastLogin(sql.value(4).toString());
+        ua->setUserPhoneNumber(sql.value(3).toString());
+        // ua->setUserPhoneNumberList();
+    }
+
+    return ua;
 }
