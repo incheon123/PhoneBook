@@ -42,11 +42,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         memo
         home.h home.cpp home.ui
-
-
-
-
-
+        src_c/user_s/userAccount.cpp
+        src_h/user_h/userAccount.h
+        src_h/user_h/userPhoneNumInfo.h
+        src_c/user_s/userPhoneNumInfo.cpp
     )
 else()
     if(ANDROID)
