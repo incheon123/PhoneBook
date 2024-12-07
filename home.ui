@@ -62,7 +62,7 @@ QListWidget::item{
    </property>
    <item>
     <property name="text">
-     <string>Index</string>
+     <string>home</string>
     </property>
     <property name="textAlignment">
      <set>AlignCenter</set>
@@ -232,6 +232,9 @@ QListWidget::item{
           <height>0</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QTableWidget{background-color:white; color:black;}</string>
+        </property>
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>true</bool>
         </attribute>
@@ -273,23 +276,13 @@ QListWidget::item{
        </widget>
       </item>
       <item row="5" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1,1">
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1">
         <property name="spacing">
          <number>7</number>
         </property>
         <property name="rightMargin">
          <number>0</number>
         </property>
-        <item>
-         <widget class="QPushButton" name="index_addBtn">
-          <property name="styleSheet">
-           <string notr="true">QPushButton{background-color: gray; color:black;}</string>
-          </property>
-          <property name="text">
-           <string>add</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QPushButton" name="index_deleteBtn">
           <property name="styleSheet">
@@ -303,33 +296,13 @@ QListWidget::item{
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="index_updateBtn">
-          <property name="styleSheet">
-           <string notr="true">QPushButton{background-color: gray; color:black;}</string>
-          </property>
-          <property name="text">
-           <string>update</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item row="4" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1,1,0">
+       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1,0">
         <property name="rightMargin">
          <number>0</number>
         </property>
-        <item>
-         <widget class="QLineEdit" name="phoneNumberInput">
-          <property name="styleSheet">
-           <string notr="true">QLineEdit{color:white;}</string>
-          </property>
-          <property name="placeholderText">
-           <string>PhoneNumber</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QLineEdit" name="NameInput">
           <property name="styleSheet">
@@ -380,7 +353,211 @@ QListWidget::item{
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="page_2"/>
+   <widget class="QWidget" name="page_2">
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>29</x>
+       <y>19</y>
+       <width>671</width>
+       <height>541</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,0,0,0,0" columnstretch="1,3">
+      <property name="sizeConstraint">
+       <enum>QLayout::SizeConstraint::SetMinAndMaxSize</enum>
+      </property>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="profile_phone_input">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>10</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit{
+	background-color: white; color:black;
+	border-radius: 15px;
+	border-color: pink;
+}
+</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_5">
+          <property name="styleSheet">
+           <string notr="true">QLabel{text-align : center; color:white;}</string>
+          </property>
+          <property name="text">
+           <string>계정이 생성된 시간</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="styleSheet">
+           <string notr="true">QLabel{text-align : center; color:white;}</string>
+          </property>
+          <property name="text">
+           <string>저장된 전화번호 수</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="profile_count_input">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit{background-color: white; color:black; border-radius:15px;}
+</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLineEdit" name="profile_createTime">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit{background-color: white; color:black;border-radius:15px;}
+</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="styleSheet">
+         <string notr="true">QLabel{text-align : center; color:white;}</string>
+        </property>
+        <property name="text">
+         <string>전화번호</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+        <property name="margin">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QPushButton" name="profile_modify_btn">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>변경하기</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="styleSheet">
+         <string notr="true">QLabel{text-align : center; color:white;}</string>
+        </property>
+        <property name="text">
+         <string>비밀번호</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+        <property name="margin">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="profile_userPw_input">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>10</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit{background-color: white; color:black; border-radius:15px;}
+</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">QLabel{text-align : center; color:white;}</string>
+        </property>
+        <property name="text">
+         <string>아이디</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+        <property name="margin">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="profile_userId_input">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>10</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit{background-color: white; color:black; border-radius:15px}</string>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>
