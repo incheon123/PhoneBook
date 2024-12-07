@@ -21,6 +21,12 @@ QList<UserPhoneNumInfo*>* UserAccount::getUserPhoneNumInfoList(){
 QString UserAccount::getUserLastLogin(){
     return this->userLastLogin;
 }
+int UserAccount::getUserNumOfPhoneNumber(){
+    return this->getUserPhoneNumInfoList()->size();
+}
+QString UserAccount::getUserCreateTime(){
+    return this->userCreateTime;
+}
 /* 유저의 마지막 로그인 일시 업데이트 */
 void UserAccount::updateUserLastLogin(){
     Db* db = new Db();
