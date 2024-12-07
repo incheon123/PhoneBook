@@ -7,6 +7,7 @@
 #include <QSql>
 #include <QSqlDatabase>
 #include <QMessageBox>
+#include <QLineEdit>
 
 #include "src_h/db_h/db.h"
 #include "home.h"
@@ -61,9 +62,10 @@ private:
 
     QString id = "opportunity13";
     QString pw = "rlghlek153@";
-    QString signup_userId;
-    QString signup_userPw;
-    QString signup_phone_number;
+    QLineEdit* signup_userId;
+    QLineEdit* signup_userPw;
+    QLineEdit* signup_userChkPw;
+    QLineEdit* signup_phone_number;
     bool duplicateChk = 0;
 
 private:
@@ -72,5 +74,6 @@ private:
     bool validUserPw();
     bool validUserPhoneNum();
     void execMsgBox(QString content);
+    bool chkPhoneNumExists(QString phoneNumber);
 };
 #endif // PHONEBOOK_H
