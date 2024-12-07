@@ -11,6 +11,9 @@
 #include <QRect>
 #include <QTableWidgetItem>
 #include <QList>
+#include <QMenu>
+#include <QTableView>
+#include <QMouseEvent>
 
 home::home(QWidget *parent)
     : QWidget(parent)
@@ -19,8 +22,51 @@ home::home(QWidget *parent)
     ui->setupUi(this);
 
     loadUser();
-}
 
+    list = ui->index_sideMenu;
+
+    ui->index_table->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->index_table, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint&)));
+    connect(ui->index_table, SIGNAL(cellClicked(int,int)), this, SLOT(mousePressEvent(int,int)));
+
+    profile = new Profile();
+    setProfile();
+    profile->init(
+        ui->profile_userId_input,
+        ui->profile_userPw_input,
+        ui->profile_phone_input,
+        ui->profile_count_input,
+        ui->profile_createTime
+    );
+
+    connect(this, &home::decreaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
+    connect(this, &home::increaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
+}
+/* 마우스 눌렸을 때 */
+void home::mousePressEvent(int row, int column){
+    qDebug() << row << ' ' << column;
+}
+/* show contextMenu */
+void home::showContextMenu(const QPoint &pos){
+    QPoint globalPos = ui->index_table->mapToGlobal(pos);
+
+    QTableWidgetItem *item = ui->index_table->itemAt(pos);
+    int row = item->row();                                      // row for delete
+    QString owner = UserAccount::getInstance()->getUserId();    // owner
+    QString userId = ui->index_table->item(row, 2)->text();     // userId
+
+    QMenu menu;
+    menu.addAction("Delete");
+
+    QAction* selectedItem = menu.exec(globalPos);
+
+    if(selectedItem)
+        if(remove(userId, owner)){
+            removeRowInTable(row);
+            emit decreaseNumOfPhoneNumber(ui->profile_count_input, -1);
+            msg("성공적으로 수행했습니다");
+        }
+}
 home::~home()
 {
     delete ui;
@@ -76,34 +122,102 @@ void home::loadUser(){
 
 }
 
-void home::on_index_addBtn_clicked()
-{
-}
 void home::on_index_deleteBtn_clicked()
 {
     qDebug() << "clicked delete";
 }
-void home::on_index_updateBtn_clicked()
-{
-    qDebug() << "clicked update";
-}
+/* user의 전화번호 저장 리스트에서 찾아야됨 */
+bool home::findId(QString owner, QString userId){
+    QSqlQuery sql;
+    sql.prepare("select user_id from phone_number where owner = :owner and user_id = :userId");
+    sql.bindValue(":owner", owner);
+    sql.bindValue(":userId", userId);
+    sql.exec();
+    sql.next();
 
+    QString id = sql.value(0).toString();
+    sql.clear();
+
+    return id.isNull() ? false : true;  // 없으면 삽입(true)
+}
+/* 데이터베이스에 삽입시 */
+void home::save(QString phoneNumber, QString name, QString userId, QString owner){
+    QSqlQuery sql;
+    sql.prepare("insert into phone_number(number, name, user_id, owner) values(:phoneNumber, :name, :userId, :owner)");
+    sql.bindValue(":phoneNumber", phoneNumber);
+    sql.bindValue(":name", name);
+    sql.bindValue(":userId", userId);
+    sql.bindValue(":owner", owner);
+
+    sql.exec();
+    sql.clear();
+}
+/* 기존 행 수정시 */
+void home::modify(QString owner, QString name, QString userId){
+    QSqlQuery sql;
+    sql.prepare("update phone_number set name = :name where owner = :owner and user_id = :userId");
+    sql.bindValue(":name", name);
+    sql.bindValue(":owner", owner);
+    sql.bindValue(":userId", userId);
+    sql.exec();
+
+
+    sql.clear();
+}
+/* remove row in db */
+bool home::remove(QString userId, QString owner){
+    Db *db = new Db();
+    QSqlQuery sql;
+    sql.prepare("delete from phone_number where owner = :owner and user_id = :userId");
+    sql.bindValue(":owner", owner);
+    sql.bindValue(":userId", userId);
+    sql.exec();
+    bool result = sql.numRowsAffected();
+    sql.finish();
+    sql.clear();
+    db->close();
+
+    return result;
+}
+/* remove row in tableWidget */
+void home::removeRowInTable(int row){
+    table = ui->index_table;
+    table->removeRow(row);
+}
+/* 테이블에 행 삽입 메서드 */
+void home::insertIntoTable(QString phoneNumber, QString name, QString userId, QString owner){
+    QSqlQuery sql;
+    sql.prepare("select create_time from phone_number where owner = :owner and user_id = :userId");
+    sql.bindValue(":owner", owner);
+    sql.bindValue(":userId", userId);
+    sql.exec();
+    sql.next();
+
+    table = ui->index_table;
+    table->insertRow(ui->index_table->rowCount());
+    table->setItem(table->rowCount() - 1, 0, new QTableWidgetItem(phoneNumber));
+    table->setItem(table->rowCount() - 1, 1, new QTableWidgetItem(name));
+    table->setItem(table->rowCount() - 1, 2, new QTableWidgetItem(userId));
+    table->setItem(table->rowCount() - 1, 3, new QTableWidgetItem(sql.value(0).toString()));
+
+    sql.exec();
+    sql.clear();
+}
+/* 테이블 행 수정하기 */
+void home::modifyTable(QString name, QString userId){
+    table = ui->index_table;
+
+    table->setItem(selectedRow, 1, new QTableWidgetItem(name));
+}
+/* 전화번호 저장 버튼 클릭시 --------------------------------------------------------------------------------------*/
 void home::on_index_saveBtn_clicked()
 {
-    QString phoneNumber = ui->phoneNumberInput->text();
     QString name        = ui->NameInput->text();
     QString userId      = ui->userIdInput->text();
     QString owner       = UserAccount::getInstance()->getUserId();  // 현재 로그인한 사용자 아이디 받아옴
 
     db = new Db();
 
-    if(phoneNumber.isEmpty()){
-        errorMsg("phoneNumber를 채워주십시오");
-        return;
-    }else if(phoneNumber.length() != 11){
-        errorMsg("phoneNumber는 11자여야 합니다");
-        return;
-    }
     if(name.isEmpty()){
         errorMsg("name를 채워주십시오");
         return;
@@ -117,17 +231,72 @@ void home::on_index_saveBtn_clicked()
         return;
     }
 
-    QSqlQuery sql;
-    QString result = NULL;
-    sql.prepare("insert into phone_number(number, name, user_id, owner) values(:phoneNumber, :name, :userId, :owner)");
-    sql.bindValue(":phoneNumber", phoneNumber);
-    sql.bindValue(":name", name);
-    sql.bindValue(":userId", userId);
-    sql.bindValue(":owner", owner);
+    /* 데이터베이스에 삽입/추가 */
+    if(findId(owner, userId)){
+        modify(owner, name, userId);
+        msg("성공적으로 수정했습니다");
 
-    sql.exec();
+        modifyTable(name, userId);
+    }else{
+        QString phoneNumber;
+        QSqlQuery sql;
+        sql.prepare("select phone_number from user where user_id = :userId");
+        sql.bindValue(":userId", userId);
+        sql.exec();
+        sql.next();
+        phoneNumber = sql.value(0).toString();
 
-    msg("성공적으로 추가했습니다!");
+        save(phoneNumber, name, userId, owner);
+        msg("성공적으로 추가했습니다!");
+
+        /* 테이블에 행 추가 */
+        insertIntoTable(phoneNumber, name, userId, owner);
+        emit increaseNumOfPhoneNumber(ui->profile_count_input, 1);
+
+        sql.clear();
+    }
+
+
     db->close();
     // table->setItem(0,0 , new QTableWidgetItem(phoneNumber));
+}
+/* 테이블 셀 클릭시 */
+void home::on_index_table_cellClicked(int row, int column)
+{
+    table = ui->index_table;
+
+    QString phoneNumber = table->item(row,0)->text();
+    QString name = table->item(row,1)->text();
+    QString userId = table->item(row,2)->text();
+
+    ui->NameInput->setText(name);
+    ui->userIdInput->setText(userId);
+
+    selectedRow = row;
+}
+void home::setProfile(){
+    profile->setUserId(UserAccount::getInstance()->getUserId());
+    profile->setUserPw(UserAccount::getInstance()->getUserPw());
+    profile->setUserPhoneNumber(UserAccount::getInstance()->getUserPhoneNumber());
+    profile->setUserNumOfPhoneNumber(UserAccount::getInstance()->getUserNumOfPhoneNumber());
+    profile->setUserCreateTime(UserAccount::getInstance()->getUserCreateTime());
+}
+#include "../../../../src_h/profile_h/profile.h"
+/* switch page */
+void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
+{
+    QString menu = item->text();
+    QStackedWidget* sw = ui->stackedWidget;
+
+    if(menu.compare("home") == 0){
+        sw->setCurrentIndex(0);
+    }else if(menu.compare("Profile") == 0){
+        sw->setCurrentIndex(1);
+    }else if(menu.compare("logout") == 0){
+        // logout
+    }
+}
+
+QListWidget* home::getList(){
+    return ui->index_sideMenu;
 }
