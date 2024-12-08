@@ -24,7 +24,7 @@ private:
 
 public:
     void init(QLineEdit*, QLineEdit*,QLineEdit*,QLineEdit*,QLineEdit*);
-    bool modify();
+    bool modifyPw(QString pw);
     void setUserId(QString str);
     void setUserPw(QString str);
     void setUserPhoneNumber(QString str);
