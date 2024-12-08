@@ -300,3 +300,11 @@ void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
 QListWidget* home::getList(){
     return ui->index_sideMenu;
 }
+
+void home::on_profile_modify_btn_clicked()
+{
+    bool result = profile->modifyPw(ui->profile_userPw_input->text());
+    if(result)  msg("성공적으로 수행했습니다");
+    else        msg("실패하였습니다");
+}
+
