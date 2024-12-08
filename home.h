@@ -38,6 +38,8 @@ private slots:
     void mousePressEvent(int, int);
     void on_index_sideMenu_itemClicked(QListWidgetItem *item);
 
+    void on_profile_modify_btn_clicked();
+
 signals:
     void on_index_table_customContextMenuRequested(const QPoint &pos);
     void decreaseNumOfPhoneNumber(QLineEdit*, int num);
