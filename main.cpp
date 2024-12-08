@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     PhoneBook w;
     w.show();
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+
     qDebug() << db.connectionName();
     return a.exec();
 }
