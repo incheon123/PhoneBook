@@ -25,10 +25,12 @@ void Profile::init(QLineEdit* userId, QLineEdit* userPw,QLineEdit* userPhoneNumb
     userCreateTime->setText(this->userCreateTime);
 }
 /* modify 버튼을 클릭시 */
-bool Profile::modify(){
+bool Profile::modifyPw(QString pw){
     Db* db = new Db();
     QSqlQuery sql;
-    sql.prepare("update user set user_pw = :userPw");
+    sql.prepare("update user set user_pw = :userPw where user_id = :userId");
+    sql.bindValue(":userPw", pw);
+    sql.bindValue(":userId", UserAccount::getInstance()->getUserId());
     sql.exec();
     int affected = sql.numRowsAffected();
 
