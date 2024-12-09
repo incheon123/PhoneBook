@@ -2,6 +2,7 @@
 #include "./ui_phonebook.h"
 
 #include "../../../../src_h/user_h/userAccount.h"
+#include "../../../../home.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -17,14 +18,14 @@ PhoneBook::PhoneBook(QWidget *parent)
     , ui(new Ui::PhoneBook)
 {
     ui->setupUi(this);
-    // home h;
-    // h.save(this);
 
     QObject::connect(this, &PhoneBook::click_back, this, &PhoneBook::switchPage);
+    qDebug() << "Open";
 }
 
 PhoneBook::~PhoneBook()
 {
+    qDebug() << "PhoneBook 삭제됨";
     delete ui;
     // db->close();
 }
@@ -108,11 +109,13 @@ void PhoneBook::on_signin_clicked()
     }
 
     db->close();
-    h = new home;
+    home* h = new home;
     h->save(this);
+    h->setPhoneBook(this);
     qDebug() << this;
 
-    this->close();
+    // this->close();
+    this->hide();
     h->show();
 
     delete list;
