@@ -9,6 +9,8 @@
 #include "../../../../src_h/db_h/db.h"
 #include "../../../../src_h/profile_h/profile.h"
 
+class PhoneBook;
+
 namespace Ui {
 class home;
 }
@@ -27,6 +29,9 @@ public:
     void closeHome();
     home* getUi();
     Ui::home *ui;
+    void setPhoneBook(PhoneBook* ph){
+        this->ph = ph;
+    }
 
 private slots:
     void on_index_deleteBtn_clicked();
@@ -46,6 +51,7 @@ signals:
     void increaseNumOfPhoneNumber(QLineEdit*, int num);
 
 private:
+    PhoneBook* ph;
     Profile* profile;
     QTableWidget* table;
     QListWidget* list;
