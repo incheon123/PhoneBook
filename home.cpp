@@ -1,8 +1,10 @@
 #include "home.h"
 #include "ui_home.h"
-#include <../../../../../phone/phonebook.h>
+// #include <../../../../../phone/phonebook.h>
 #include <../../../../src_h/user_h/userAccount.h>
 #include "../../../../src_h/user_h/userPhoneNumInfo.h"
+#include "../../../../profileofanother.h"
+#include "./phonebook.h"
 
 #include <QUiLoader>
 #include <QFile>
@@ -14,6 +16,7 @@
 #include <QMenu>
 #include <QTableView>
 #include <QMouseEvent>
+#include <QMessageBox>
 
 home::home(QWidget *parent)
     : QWidget(parent)
@@ -57,18 +60,40 @@ void home::showContextMenu(const QPoint &pos){
 
     QMenu menu;
     menu.addAction("Delete");
+    menu.addAction("프로필 보기");
 
     QAction* selectedItem = menu.exec(globalPos);
 
-    if(selectedItem)
+    if(selectedItem->text().compare("Delete") == 0){
         if(remove(userId, owner)){
             removeRowInTable(row);
             emit decreaseNumOfPhoneNumber(ui->profile_count_input, -1);
             msg("성공적으로 수행했습니다");
         }
+    }else{
+        /* 프로필 보기 */
+        /* 새로운 화면 띄우기 */
+        qDebug() << "*************************" << userId << "*************************";
+        Db* db = new Db;
+        QSqlQuery sql;
+        sql.prepare("select *, (select count(*) from phone_number where owner = :userId) as numOfPhoneNumber from user where user_id = :userId;");
+        sql.bindValue(":userId", userId);
+        sql.exec();
+        if(sql.next()){
+            profileOfAnother* poa = new profileOfAnother;
+            poa->setUserId(sql.value(0).toString());
+            poa->setUserPhone(sql.value(3).toString());
+            poa->setUserCreateTime(sql.value(2).toString());
+            poa->setUserNumOfPhoneNumber(sql.value(5).toString());
+            poa->show();
+        }
+        db->close();
+        sql.finish();
+    }
 }
 home::~home()
 {
+    delete profile;
     delete ui;
 }
 
@@ -292,8 +317,14 @@ void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
         sw->setCurrentIndex(0);
     }else if(menu.compare("Profile") == 0){
         sw->setCurrentIndex(1);
-    }else if(menu.compare("logout") == 0){
-        // logout
+    }else if(menu.compare("Logout") == 0){
+        // ph->setWindowFlags(Qt::Window);
+        // ph->setAttribute(Qt::WA_DeleteOnClose, true);
+        // ph->setVisible(true);
+        // ph->show();
+        ph->hidePhoneBook(false);
+        delete this;
+        qDebug() << "Logout";
     }
 }
 
