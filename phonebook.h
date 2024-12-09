@@ -32,10 +32,15 @@ public:
 
 public:
     Db *db;
-    home *h;
 
 public:
-    PhoneBook getPhoneBook();
+    void hidePhoneBook(bool flag){
+        if(flag){
+            hide();
+        }else{
+            show();
+        }
+    };
 
 signals:
     void click_back(int p);
