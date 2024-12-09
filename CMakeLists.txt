@@ -48,6 +48,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src_c/user_s/userPhoneNumInfo.cpp
         src_h/profile_h/profile.h
         src_c/profile_s/profile.cpp
+        profileofanother.h profileofanother.cpp profileofanother.ui
     )
 else()
     if(ANDROID)
