@@ -110,11 +110,10 @@ void PhoneBook::on_signin_clicked()
 
     db->close();
     home* h = new home;
-    h->save(this);
+    // h->save(this);
     h->setPhoneBook(this);
     qDebug() << this;
 
-    // this->close();
     this->hide();
     h->show();
 
@@ -307,4 +306,3 @@ void PhoneBook::on_signup_back_btn_clicked()
     qDebug() << "뒤로가기(회원가입)";
     emit click_back(1);
 }
-
