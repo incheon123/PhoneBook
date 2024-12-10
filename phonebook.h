@@ -35,11 +35,12 @@ public:
 
 public:
     void hidePhoneBook(bool flag){
-        if(flag){
-            hide();
-        }else{
-            show();
-        }
+        setVisible(flag);
+        // if(flag){
+        //     hide();
+        // }else{
+        //     show();
+        // }
     };
 
 signals:
