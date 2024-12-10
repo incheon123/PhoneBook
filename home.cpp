@@ -23,7 +23,7 @@ home::home(QWidget *parent)
     , ui(new Ui::home)
 {
     ui->setupUi(this);
-
+    QWidget::setAttribute(Qt::WA_DeleteOnClose);    //클로즈하면 메모리에서 삭제됨
     loadUser();
 
     list = ui->index_sideMenu;
@@ -322,8 +322,8 @@ void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
         // ph->setAttribute(Qt::WA_DeleteOnClose, true);
         // ph->setVisible(true);
         // ph->show();
-        ph->hidePhoneBook(false);
-        delete this;
+        ph->show();
+        this->close();
         qDebug() << "Logout";
     }
 }
@@ -339,3 +339,12 @@ void home::on_profile_modify_btn_clicked()
     else        msg("실패하였습니다");
 }
 
+void home::setPhoneBook(PhoneBook* ph){
+    this->ph = ph;
+}
+void home::hidePhoneBook(){
+    this->ph->hide();
+}
+void home::showPhoneBook(){
+    this->ph->show();
+}
