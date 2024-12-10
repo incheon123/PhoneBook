@@ -29,9 +29,9 @@ public:
     void closeHome();
     home* getUi();
     Ui::home *ui;
-    void setPhoneBook(PhoneBook* ph){
-        this->ph = ph;
-    }
+    void setPhoneBook(PhoneBook* ph);
+    void hidePhoneBook();
+    void showPhoneBook();
 
 private slots:
     void on_index_deleteBtn_clicked();
