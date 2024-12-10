@@ -7,11 +7,8 @@
 # 사용한것
 
 - Qt 6.7.3
-
 - QtCreator
-- 
 - mysql 8.0
-
 - QMySql(설치 : https://www.youtube.com/watch?v=7YIJUL9pz2U)
 
 # 기능
