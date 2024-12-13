@@ -1,10 +1,7 @@
-#include <../../../../src_h/user_h/userAccount.h>
-#include <../../../../src_h/db_h/db.h>
 #include <QSqlQuery>
 
-// UserAccount::UserAccount(){};
-// UserAccount::~UserAccount(){};
-
+#include "../../src_h/db_h/db.h"
+#include "../../src_h/user_h/userAccount.h"
 
 QString UserAccount::getUserId(){
     return this->userId;

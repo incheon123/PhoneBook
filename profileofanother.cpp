@@ -14,6 +14,5 @@ profileOfAnother::profileOfAnother(QWidget *parent)
 
 profileOfAnother::~profileOfAnother()
 {
-    qDebug() << "profileOfAnother is Destroyed";
     delete ui;
 }

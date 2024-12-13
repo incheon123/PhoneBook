@@ -1,5 +1,4 @@
 #include "phonebook.h"
-#include "../../../../src_h/db_h/db.h"
 
 #include <QApplication>
 
@@ -9,6 +8,10 @@ int main(int argc, char *argv[])
     PhoneBook w;
     w.show();
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("129.154.51.67");
+    db.setDatabaseName("product");
+    db.setUserName("taekhyun");
+    db.setPassword("1234");
     qDebug() << db.connectionName();
     return a.exec();
 }
