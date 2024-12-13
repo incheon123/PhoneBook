@@ -20,12 +20,10 @@ PhoneBook::PhoneBook(QWidget *parent)
     ui->setupUi(this);
 
     QObject::connect(this, &PhoneBook::click_back, this, &PhoneBook::switchPage);
-    qDebug() << "Open";
 }
 
 PhoneBook::~PhoneBook()
 {
-    qDebug() << "PhoneBook 삭제됨";
     delete ui;
     // db->close();
 }
@@ -41,7 +39,6 @@ PhoneBook::~PhoneBook()
 */
 void PhoneBook::switchPage(int p)
 {
-    qDebug() << "switchPage()";
     QStackedWidget *stack = ui->stackedWidget;
 
     if(p >= 1 && p <= WIDGET_SIZE){
@@ -55,9 +52,6 @@ void PhoneBook::on_signin_clicked()
     db = new Db();
     QString user_id = ui->login_userId->text();
     QString user_pw = ui->login_userPw->text();
-
-    qDebug() << user_id << '\n';
-    qDebug() << user_pw << '\n';
 
     /* 데이터 베이스에 있는 계정과 비밀번호와 비교 */
     ui->signin_userIdLabel->setText("");
@@ -112,7 +106,6 @@ void PhoneBook::on_signin_clicked()
     home* h = new home;
     // h->save(this);
     h->setPhoneBook(this);
-    qDebug() << this;
 
     this->hide();
     h->show();
@@ -124,14 +117,12 @@ void PhoneBook::on_signin_clicked()
 
 void PhoneBook::on_signup_clicked()
 {
-    qDebug() << "signup";
     switchPage(SIGNUP);  // to sigin up
 }
 
 /* 비밀번호 찾기 버튼 클릭 */
 void PhoneBook::on_forgetAccount_clicked()
 {
-    qDebug() << "forgetAccount";
     switchPage(FIND_ACCOUNT);  // to find account
 }
 
@@ -193,7 +184,6 @@ void PhoneBook::on_signup_user_id_dp_chk_btn_clicked()
     db = new Db();
     /* 아이디 중복 체크 */
     signup_userId = ui->signup_user_id_input;
-    qDebug() << signup_userId << "입니다";
     QString result = db->getUserId(signup_userId->text());
     if(!result.isEmpty()){
         ui->signup_user_id_dp_chk_lb->setText("중복되는 아이디입니다");
@@ -296,13 +286,11 @@ void PhoneBook::on_submit_clicked()
 
 void PhoneBook::on_find_account_back_btn_clicked()
 {
-    qDebug() << "뒤로가기(비밀번호찾기)";
     emit click_back(1);
 }
 
 
 void PhoneBook::on_signup_back_btn_clicked()
 {
-    qDebug() << "뒤로가기(회원가입)";
     emit click_back(1);
 }
