@@ -28,15 +28,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
 
-
-        src_h/account_h/login.h
-        src_h/account_h/register.h
-        src_h/account_h/signup.h
-
-        src_c/account_s/register.cpp
-        src_c/account_s/login.cpp
-        src_c/account_s/signup.cpp
-
         src_h/db_h/db.h
         src_c/db_s/db.cpp
 
