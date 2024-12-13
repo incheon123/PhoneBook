@@ -31,7 +31,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src_h/db_h/db.h
         src_c/db_s/db.cpp
 
-        memo
         home.h home.cpp home.ui
         src_c/user_s/userAccount.cpp
         src_h/user_h/userAccount.h

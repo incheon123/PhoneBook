@@ -1,7 +1,7 @@
 #include "home.h"
 #include "ui_home.h"
 // #include <../../../../../phone/phonebook.h>
-#include <../../../../src_h/user_h/userAccount.h>
+#include "../../../../src_h/user_h/userAccount.h"
 #include "../../../../src_h/user_h/userPhoneNumInfo.h"
 #include "../../../../profileofanother.h"
 #include "./phonebook.h"
@@ -47,7 +47,6 @@ home::home(QWidget *parent)
 }
 /* 마우스 눌렸을 때 */
 void home::mousePressEvent(int row, int column){
-    qDebug() << row << ' ' << column;
 }
 /* show contextMenu */
 void home::showContextMenu(const QPoint &pos){
@@ -73,7 +72,6 @@ void home::showContextMenu(const QPoint &pos){
     }else{
         /* 프로필 보기 */
         /* 새로운 화면 띄우기 */
-        qDebug() << "*************************" << userId << "*************************";
         Db* db = new Db;
         QSqlQuery sql;
         sql.prepare("select *, (select count(*) from phone_number where owner = :userId) as numOfPhoneNumber from user where user_id = :userId;");
@@ -104,10 +102,6 @@ void home::save(QWidget* widget){
 
     QWidget *myWidget = loader.load(&file, widget);
     file.close();
-
-    // connect(this, &home::addBtn_clicked, this, &home::on_index_addBtn_clicked);
-    // emit void addBtn_clicked();
-
 }
 void home::openHome(){
 
@@ -129,7 +123,6 @@ void home::msg(QString msg){
 
 void home::loadUser(){
     UserAccount* ua = UserAccount::getInstance();
-    qDebug() << ua->getUserLastLogin();
     ui->index_lastLoginDateLabel->setText(QString("마지막 로그인일시 : ") + ua->getUserLastLogin());
     ui->index_welcomeLabel->setText(ua->getUserId() + QString("님 환영합니다"));
     ui->index_phoneNumLabel->setText(QString("전화번호 : ") + ua->getUserPhoneNumber());
@@ -149,7 +142,6 @@ void home::loadUser(){
 
 void home::on_index_deleteBtn_clicked()
 {
-    qDebug() << "clicked delete";
 }
 /* user의 전화번호 저장 리스트에서 찾아야됨 */
 bool home::findId(QString owner, QString userId){
@@ -283,7 +275,6 @@ void home::on_index_saveBtn_clicked()
 
 
     db->close();
-    // table->setItem(0,0 , new QTableWidgetItem(phoneNumber));
 }
 /* 테이블 셀 클릭시 */
 void home::on_index_table_cellClicked(int row, int column)
@@ -324,7 +315,6 @@ void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
         // ph->show();
         ph->show();
         this->close();
-        qDebug() << "Logout";
     }
 }
 

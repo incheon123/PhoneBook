@@ -34,7 +34,6 @@ QString Db::login(QString userId, QString userPw){
     if(sql.next()){
         result = sql.value(0).toString();
     }
-    qDebug() << "유저 아이디 조회 결과입니다 ==> " << result;
     return result;
 }
 
@@ -65,24 +64,9 @@ QString Db::getUserId(QString userId){
     if(sql.next()){
         result = sql.value(0).toString();
     }
-    qDebug() << "유저 아이디 조회 결과입니다 ==> " << result;
     return result;
 }
-// QString Db::getUserPw(QString userPw){
-//     QString result = NULL;
-//     QSqlQuery sql;
 
-//     sql.prepare("select user_pw from user where user_pw = :userPw");
-//     sql.bindValue(":userPw", userPw);
-
-//     sql.exec();
-//     if(sql.next()){
-//         result = sql.value(0).toString();
-//     }
-//     qDebug() << "유저 비밀번호 조회 결과입니다 ==> " << result;
-
-//     return result;
-// }
 /* 비밀번호 찾는 함수 */
 QString Db::findUserPw(QString userId){
     QString id = getUserId(userId);
