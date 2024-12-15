@@ -29,8 +29,6 @@ class PhoneBook : public QMainWindow
 public:
     PhoneBook(QWidget *parent = nullptr);
     ~PhoneBook();
-
-public:
     Db *db;
 
 public:
