@@ -39,6 +39,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src_h/profile_h/profile.h
         src_c/profile_s/profile.cpp
         profileofanother.h profileofanother.cpp profileofanother.ui
+        src_h/account_h/login.h
+        src_h/account_h/findPassword.h
+        src_h/account_h/signUp.h
+        src_c/account_s/login.cpp
+        src_c/account_s/findPassword.cpp
+        src_c/account_s/signUp.cpp
     )
 else()
     if(ANDROID)
