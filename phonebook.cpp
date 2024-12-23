@@ -44,7 +44,6 @@ void PhoneBook::switchPage(int p)
     if(p >= 1 && p <= WIDGET_SIZE){
         stack->setCurrentIndex(p-1);
     }
-
 }
 
 void PhoneBook::on_signin_clicked()
@@ -125,27 +124,26 @@ void PhoneBook::on_forgetAccount_clicked()
 {
     switchPage(FIND_ACCOUNT);  // to find account
 }
-
 /* 아이디 유효성 체크 */
-bool PhoneBook::validUserId(){
-    ui->signup_user_id_dp_chk_lb->setText("");
+// bool PhoneBook::validUserId(){
+//     ui->signup_user_id_dp_chk_lb->setText("");
 
-    /* 아이디 공백 체크 */
-    signup_userId = ui->signup_user_id_input;
-    if(signup_userId->text().isEmpty()){
-        ui->signup_user_id_dp_chk_lb->setText("아이디를 입력하세요");
-        duplicateChk = 0;
-        return false;
-    }
-    /* 아이디 중복 체크 했는지 확인 */
-    if(!duplicateChk){
-        ui->signup_user_id_dp_chk_lb->setText("아이디 중복 검사를 하세요");
-        duplicateChk = 0;
-        return false;
-    }
+//     /* 아이디 공백 체크 */
+//     signup_userId = ui->signup_user_id_input;
+//     if(signup_userId->text().isEmpty()){
+//         ui->signup_user_id_dp_chk_lb->setText("아이디를 입력하세요");
+//         duplicateChk = 0;
+//         return false;
+//     }
+//     /* 아이디 중복 체크 했는지 확인 */
+//     if(!duplicateChk){
+//         ui->signup_user_id_dp_chk_lb->setText("아이디 중복 검사를 하세요");
+//         duplicateChk = 0;
+//         return false;
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
 /* 비밀번호 유효성 체크 */
 bool PhoneBook::validUserPw(){
@@ -178,6 +176,7 @@ bool PhoneBook::validUserPhoneNum(){
     }
     return true;
 };
+
 /* 회원가입 유저 아이디 중복 확인 */
 void PhoneBook::on_signup_user_id_dp_chk_btn_clicked()
 {
@@ -219,28 +218,37 @@ bool PhoneBook::chkPhoneNumExists(QString phoneNumber){
     }
     return result;
 }
+#include "../../../../src_h/account_h/signUp.h"
 /* 회원가입 유효성 체크 */
 void PhoneBook::on_signup_submit_btn_clicked()
 {
+    SignUp *signup = new SignUp();
+    signup->setConnect(this);
     db = new Db();
     signup_userId = ui->signup_user_id_input;
     signup_phone_number = ui->signup_user_phone_number_input;
-    signup_userPw = ui->signup_user_pw_input;
-    signup_userChkPw = ui->signup_user_pw_double_input;
+    pw1 = ui->signup_user_pw_input;
+    pw2 = ui->signup_user_pw_double_input;
 
     /* 회원가입 로직 */
-
     /* 아이디 중복 체크 */
-    if(!validUserId()) return;
+    if(!signup->validUserId(signup_userId->text(), ui->signup_user_id_dp_chk_lb)) return;
 
     /* 비밀번호 공백 체크 */
-    if(!validUserPw()) return;
+    if(!signup->validUserPw(pw1->text(), pw2->text(), ui->signup_pw_chk_lb)){
+        ui->signup_user_pw_input->setText("");
+        ui->signup_user_pw_double_input->setText("");
+        return;
+    }
 
     /* 전화번호 공백 체크 */
     if(!validUserPhoneNum()) return;
 
     /* 전화번호 체크 */
-    if(!chkPhoneNumExists(signup_phone_number->text())) return;
+    if(!chkPhoneNumExists(signup_phone_number->text())){
+        ui->signup_user_phone_number_input->setText("");
+        return;
+    }
 
     /* 회원가입 수행 */
     bool result = db->signup(signup_userId->text(), signup_userPw->text(), signup_phone_number->text());
@@ -256,6 +264,7 @@ void PhoneBook::on_signup_submit_btn_clicked()
     signup_userPw->setText("");
     signup_userChkPw->setText("");
 
+    delete signup;
 }
 
 void PhoneBook::execMsgBox(QString content){

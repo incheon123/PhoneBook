@@ -40,7 +40,6 @@ public:
         //     show();
         // }
     };
-
 signals:
     void click_back(int p);
 
@@ -61,14 +60,16 @@ private slots:
 
     void on_signup_back_btn_clicked();  // back
 
+public slots:
+
 private:
     Ui::PhoneBook *ui;
 
     QString id = "opportunity13";
     QString pw = "rlghlek153@";
     QLineEdit* signup_userId;
-    QLineEdit* signup_userPw;
-    QLineEdit* signup_userChkPw;
+    QLineEdit* pw1;
+    QLineEdit* pw2;
     QLineEdit* signup_phone_number;
     bool duplicateChk = 0;
 
