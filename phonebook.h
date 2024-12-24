@@ -12,6 +12,8 @@
 #include "src_h/db_h/db.h"
 #include "home.h"
 
+#include "../../../../src_h/account_h/signUp.h"
+
 #define SIGNIN 1
 #define FIND_ACCOUNT 2
 #define SIGNUP 3
@@ -33,12 +35,7 @@ public:
 
 public:
     void hidePhoneBook(bool flag){
-        setVisible(flag);
-        // if(flag){
-        //     hide();
-        // }else{
-        //     show();
-        // }
+
     };
 signals:
     void click_back(int p);
@@ -64,12 +61,12 @@ public slots:
 
 private:
     Ui::PhoneBook *ui;
-
+    SignUp *signup;
     QString id = "opportunity13";
     QString pw = "rlghlek153@";
     QLineEdit* signup_userId;
-    QLineEdit* pw1;
-    QLineEdit* pw2;
+    QLineEdit* signup_userPw1;
+    QLineEdit* signup_userPw2;
     QLineEdit* signup_phone_number;
     bool duplicateChk = 0;
 
