@@ -1,15 +1,15 @@
-#include "../../src_h/account_h/signUp.h"
+#include "../../../../src_h/account_h/signUp.h"
 
 SignUp::SignUp(QWidget *parent)
     : QWidget(parent){
+    duplicateChk = 0;
 }
 SignUp::~SignUp(){
 
 }
-void SignUp::setConnect(PhoneBook* ph){
-
-}
 bool SignUp::validUserId(QString userId, QLabel *label){
+
+    qDebug() << duplicateChk;
     /* 아이디 공백 체크 */
     if(userId.isEmpty()){
         label->setText("아이디를 입력하세요");
@@ -19,11 +19,28 @@ bool SignUp::validUserId(QString userId, QLabel *label){
     /* 아이디 중복 체크 했는지 확인 */
     if(!duplicateChk){
         label->setText("아이디 중복 검사를 하세요");
-        duplicateChk = 0;
         return false;
     }
 
     return true;
+}
+/* 회원가입 유저 아이디 중복 확인 */
+void SignUp::chkDuplicate(QLineEdit* userId, QLabel* lbl)
+{
+    Db* db = new Db();
+    /* 아이디 중복 체크 */
+
+    QString result = db->getUserId(userId->text());
+    if(!result.isEmpty()){
+        lbl->setText("중복되는 아이디입니다");
+        duplicateChk = 0;
+        return;
+    }
+
+    duplicateChk = 1;
+    lbl->setText("사용가능한 아이디입니다");
+    db->close();
+    return;
 }
 
 //signup_pw_chk_lb
@@ -52,6 +69,9 @@ bool SignUp::validUserPhoneNum(QString ph, QLabel* label){
 }
 /* 전화번호 체크 */
 bool SignUp::chkPhoneNumExists(QString ph, QLabel* label){
+
+    if(!validUserPhoneNum(ph, label)) return false;
+
     Db* db = new Db();
     QSqlQuery sql;
     sql.prepare("select phone_number from user where phone_number = :phoneNumber");
@@ -72,7 +92,13 @@ bool SignUp::chkPhoneNumExists(QString ph, QLabel* label){
     label->setText("사용가능한 전화번호입니다");
     return true;
 }
-// /* 회원가입 수행 */
-// bool SignUp::signUp(QString, QString, QString){
+/* 회원가입 수행 */
+bool SignUp::signUp(QString userId, QString userPw, QString ph){
+    Db* db = new Db();
+    bool isSuccess = db->signup(userId, userPw, ph);
 
-// }
+    db->close();
+
+    if(isSuccess)   return true;
+    return false;
+}
