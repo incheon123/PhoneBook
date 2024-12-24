@@ -1,9 +1,12 @@
 #ifndef SIGNUP_H
 #define SIGNUP_H
 
-#include "../../phonebook.h"
-
 #include <QWidget>
+#include <QLabel>
+#include <QSqlQuery>
+#include <QLineEdit>
+
+#include "../../../../src_h/db_h/db.h"
 
 class SignUp : public QWidget{
     Q_OBJECT
@@ -11,8 +14,7 @@ class SignUp : public QWidget{
 signals:
 
 private:                            //  variable
-    int duplicateChk = 0;
-    PhoneBook *ph;
+    inline static int duplicateChk = 0;
 private:                            //  method
 
 public:                             // variable
@@ -20,9 +22,10 @@ public:                             // variable
 public:                             // method
     explicit SignUp(QWidget *parent = nullptr);
     ~SignUp();
-    void setConnect(PhoneBook *ph);
     /* 아이디 유효성 체크 */
     bool validUserId(QString, QLabel*);
+    /* 아이디 중복 확인 */
+    void chkDuplicate(QLineEdit*, QLabel*);
     /* 비밀번호 공백 체크 */
     bool validUserPw(QString, QString, QLabel*);
     /* 전화번호 공백 체크 */
