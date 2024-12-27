@@ -69,13 +69,14 @@ private:
     QLineEdit* signup_userPw2;
     QLineEdit* signup_phone_number;
     bool duplicateChk = 0;
+    home* createHome() { return new home; }
 
 private:
     void switchPage(int p);
     bool validUserId();
     bool validUserPw();
     bool validUserPhoneNum();
-    void execMsgBox(QString content);
+    void alertMsgBox(QString content);
     bool chkPhoneNumExists(QString phoneNumber);
 };
 #endif // PHONEBOOK_H

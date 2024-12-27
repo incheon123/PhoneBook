@@ -46,10 +46,11 @@ void PhoneBook::switchPage(int p)
         stack->setCurrentIndex(p-1);
     }
 }
-
+#include "../../../../src_h/account_h/login.h"
+/* login  */
 void PhoneBook::on_signin_clicked()
 {
-    db = new Db();
+    Login *login = new Login();
     QString user_id = ui->login_userId->text();
     QString user_pw = ui->login_userPw->text();
 
@@ -64,63 +65,32 @@ void PhoneBook::on_signin_clicked()
         ui->signin_userPwLabel->setText("비밀번호를 입력해주세요");
         return;
     }
-    if(db->login(user_id, user_pw).isNull()){
-        QMessageBox box;
-        box.setText("조회되지 않는 계정입니다");
-        box.exec();
+
+    /* 로그인 */
+    login->login(user_id, user_pw);
+
+    /* 만약 로그인 실패시 */
+    if(!login->result()){
+        // if false
+        alertMsgBox("조회되지 않는 계정입니다");
         return;
     }
 
-    QSqlQuery sql;
-    sql.prepare("select pn.number, pn.name, pn.user_id, pn.create_time from user u, phone_number pn where u.user_id = :userId and  u.user_id = pn.owner;");
-    sql.bindValue(":userId", user_id);
-    sql.exec();
+    home* const h = createHome();
 
-    QList<UserPhoneNumInfo *>* list = new QList<UserPhoneNumInfo*>;
-    UserPhoneNumInfo* u;
-    while(sql.next()){
-        u = new UserPhoneNumInfo;
-        u->setPhoneNumber(sql.value(0).toString());        // 전화번호
-        u->setName(sql.value(1).toString());               // 별칭
-        u->setPhoneNumUserId(sql.value(2).toString());     // 어떤 아이디의 전화번호인지
-        u->setCreateTime(sql.value(3).toString());          // 생성 일자
-        list->append(u);
-    }
-
-    sql.prepare("select * from user where user_id = :userId");
-    sql.bindValue(":userId", user_id);
-    sql.exec();
-    UserAccount* ua = UserAccount::getInstance();
-    if(sql.next()){
-        ua->setUserId(sql.value(0).toString());
-        ua->setUserPw(sql.value(1).toString());
-        ua->setUserCreateTime(sql.value(2).toString());
-        ua->setUserPhoneNumber(sql.value(3).toString());
-        ua->setUserLastLogin(sql.value(4).toString());
-        ua->setUserPhoneNumInfoList(list);
-        ua->updateUserLastLogin();
-        ua->setUserNumOfPhoneNumber(list->size());
-    }
-
-    db->close();
-    home* h = new home;
-    // h->save(this);
     h->setPhoneBook(this);
-
     this->hide();
     h->show();
 
-    delete list;
-    delete u;
-    sql.clear();
+    delete login;
 }
-
+/* go to signup page */
 void PhoneBook::on_signup_clicked()
 {
     switchPage(SIGNUP);  // to sigin up
 }
 
-/* 비밀번호 찾기 버튼 클릭 */
+/* go to find-account page */
 void PhoneBook::on_forgetAccount_clicked()
 {
     switchPage(FIND_ACCOUNT);  // to find account
@@ -160,11 +130,11 @@ void PhoneBook::on_signup_submit_btn_clicked()
     /* ***************************************************************************************** */
 
     if(result) {
-        execMsgBox("회원가입 성공하셨습니다");
+        alertMsgBox("회원가입 성공하셨습니다");
         /* 화면 전환 */
         switchPage(1);
     }else{
-        execMsgBox("회원가입 실패하셨습니다");
+        alertMsgBox("회원가입 실패하셨습니다");
         return;
     }
 
@@ -177,34 +147,39 @@ void PhoneBook::on_signup_submit_btn_clicked()
     delete signup;
 }
 
-void PhoneBook::execMsgBox(QString content){
+void PhoneBook::alertMsgBox(QString content){
 
     QMessageBox mb;
+    mb.setWindowTitle("경고!");
     mb.setText(content);
     mb.exec();
 
     return;
 }
-
-
+#include "../../../../src_h/account_h/findPassword.h"
+/* find pw */
 void PhoneBook::on_submit_clicked()
 {
-    db = new Db();
+    FindPassword fp;
     QString userId = ui->findPw_pwInput->text();
-    QString findedPw;
-    if((findedPw = db->findUserPw(userId)).isNull()){
+    QString findedPw = fp.findPw(userId);
+
+    if(findedPw.isNull()){
         ui->findPw_pwLabel->setText("조회되지 않는 아이디입니다");
         return;
     }
 
     ui->findPw_pwLabel->setText(userId + "의 비밀번호는 " + findedPw + "입니다");
-    db->close();
+
     return;
 }
 
 
 void PhoneBook::on_find_account_back_btn_clicked()
 {
+    FindPassword fp;
+    fp.reset(ui->findPw_pwInput, ui->findPw_pwLabel);
+
     emit click_back(1);
 }
 
