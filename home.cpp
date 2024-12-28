@@ -316,13 +316,3 @@ void home::on_profile_modify_btn_clicked()
     if(result)  msg("성공적으로 수행했습니다");
     else        msg("실패하였습니다");
 }
-
-void home::setPhoneBook(PhoneBook* ph){
-    this->ph = ph;
-}
-void home::hidePhoneBook(){
-    this->ph->hide();
-}
-void home::showPhoneBook(){
-    this->ph->show();
-}
