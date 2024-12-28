@@ -33,7 +33,6 @@ home::home(QWidget *parent)
     connect(ui->index_table, SIGNAL(cellClicked(int,int)), this, SLOT(mousePressEvent(int,int)));
 
     profile = new Profile();
-    setProfile();
     profile->init(
         ui->profile_userId_input,
         ui->profile_userPw_input,
@@ -290,14 +289,7 @@ void home::on_index_table_cellClicked(int row, int column)
 
     selectedRow = row;
 }
-void home::setProfile(){
-    profile->setUserId(UserAccount::getInstance()->getUserId());
-    profile->setUserPw(UserAccount::getInstance()->getUserPw());
-    profile->setUserPhoneNumber(UserAccount::getInstance()->getUserPhoneNumber());
-    profile->setUserNumOfPhoneNumber(UserAccount::getInstance()->getUserNumOfPhoneNumber());
-    profile->setUserCreateTime(UserAccount::getInstance()->getUserCreateTime());
-}
-#include "../../../../src_h/profile_h/profile.h"
+#include "../../../../src_h/account_h/logout.h"
 /* switch page */
 void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
 {
@@ -309,12 +301,8 @@ void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
     }else if(menu.compare("Profile") == 0){
         sw->setCurrentIndex(1);
     }else if(menu.compare("Logout") == 0){
-        // ph->setWindowFlags(Qt::Window);
-        // ph->setAttribute(Qt::WA_DeleteOnClose, true);
-        // ph->setVisible(true);
-        // ph->show();
-        ph->show();
-        this->close();
+        Logout *logout=new Logout();
+        logout->logout(ph, this);
     }
 }
 

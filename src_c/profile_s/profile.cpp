@@ -7,7 +7,7 @@
 Profile::Profile(QWidget *parent)
     : QWidget(parent)
 {
-
+    setProfile();
 }
 
 void Profile::init(QLineEdit* userId, QLineEdit* userPw,QLineEdit* userPhoneNumber,QLineEdit* userNumOfPhoneNumber,QLineEdit* userCreateTime){
@@ -51,4 +51,12 @@ void Profile::setUserCreateTime(QString createTime){
 void Profile::updateNumOfPhoneNumber(QLineEdit* userNumOfPhoneNumber, int num){
     this->userNumOfPhoneNumber += num;
     userNumOfPhoneNumber->setText(QString::number(this->userNumOfPhoneNumber));
+}
+
+void Profile::setProfile(){
+    setUserId(UserAccount::getInstance()->getUserId());
+    setUserPw(UserAccount::getInstance()->getUserPw());
+    setUserPhoneNumber(UserAccount::getInstance()->getUserPhoneNumber());
+    setUserNumOfPhoneNumber(UserAccount::getInstance()->getUserNumOfPhoneNumber());
+    setUserCreateTime(UserAccount::getInstance()->getUserCreateTime());
 }

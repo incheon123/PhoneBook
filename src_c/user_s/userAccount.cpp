@@ -36,4 +36,13 @@ void UserAccount::updateUserLastLogin(){
     db->close();
     sql.clear();
 }
-
+/* reset all variable when user logout */
+void UserAccount::reset(){
+    setUserId(nullptr);
+    setUserPw(nullptr);
+    setUserPhoneNumber(nullptr);
+    setUserPhoneNumInfoList(nullptr);
+    setUserLastLogin(nullptr);
+    setUserNumOfPhoneNumber(-1);
+    setUserCreateTime(nullptr);
+}

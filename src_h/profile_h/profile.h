@@ -30,7 +30,7 @@ public:
     void setUserPhoneNumber(QString str);
     void setUserNumOfPhoneNumber(int str);
     void setUserCreateTime(QString str);
-
+    void setProfile();
 };
 
 #endif // PROFILE_H

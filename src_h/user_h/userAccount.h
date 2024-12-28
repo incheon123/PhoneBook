@@ -40,6 +40,7 @@ public:
     int getUserNumOfPhoneNumber();
     QString getUserLastLogin();
     QString getUserCreateTime();
+    void reset();
 };
 
 #endif // USERACCOUNT_H

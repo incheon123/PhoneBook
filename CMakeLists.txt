@@ -46,6 +46,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src_c/account_s/findPassword.cpp
         src_c/account_s/signUp.cpp
         properties.h
+        src_h/account_h/logout.h
+        src_c/account_s/logout.cpp
     )
 else()
     if(ANDROID)
