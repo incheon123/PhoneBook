@@ -30,7 +30,6 @@ home::home(QWidget *parent)
 
     ui->index_table->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->index_table, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showContextMenu(const QPoint&)));
-    connect(ui->index_table, SIGNAL(cellClicked(int,int)), this, SLOT(mousePressEvent(int,int)));
 
     profile = new Profile();
     profile->init(
@@ -44,9 +43,7 @@ home::home(QWidget *parent)
     connect(this, &home::decreaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
     connect(this, &home::increaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
 }
-/* 마우스 눌렸을 때 */
-void home::mousePressEvent(int row, int column){
-}
+
 /* show contextMenu */
 void home::showContextMenu(const QPoint &pos){
     QPoint globalPos = ui->index_table->mapToGlobal(pos);
@@ -195,36 +192,7 @@ bool home::remove(QString userId, QString owner){
 
     return result;
 }
-/* remove row in tableWidget */
-void home::removeRowInTable(int row){
-    table = ui->index_table;
-    table->removeRow(row);
-}
-/* 테이블에 행 삽입 메서드 */
-void home::insertIntoTable(QString phoneNumber, QString name, QString userId, QString owner){
-    QSqlQuery sql;
-    sql.prepare("select create_time from phone_number where owner = :owner and user_id = :userId");
-    sql.bindValue(":owner", owner);
-    sql.bindValue(":userId", userId);
-    sql.exec();
-    sql.next();
 
-    table = ui->index_table;
-    table->insertRow(ui->index_table->rowCount());
-    table->setItem(table->rowCount() - 1, 0, new QTableWidgetItem(phoneNumber));
-    table->setItem(table->rowCount() - 1, 1, new QTableWidgetItem(name));
-    table->setItem(table->rowCount() - 1, 2, new QTableWidgetItem(userId));
-    table->setItem(table->rowCount() - 1, 3, new QTableWidgetItem(sql.value(0).toString()));
-
-    sql.exec();
-    sql.clear();
-}
-/* 테이블 행 수정하기 */
-void home::modifyTable(QString name, QString userId){
-    table = ui->index_table;
-
-    table->setItem(selectedRow, 1, new QTableWidgetItem(name));
-}
 /* 전화번호 저장 버튼 클릭시 --------------------------------------------------------------------------------------*/
 void home::on_index_saveBtn_clicked()
 {
@@ -275,6 +243,36 @@ void home::on_index_saveBtn_clicked()
 
     db->close();
 }
+/* remove row in tableWidget */
+void home::removeRowInTable(int row){
+    table = ui->index_table;
+    table->removeRow(row);
+}
+/* 테이블에 행 삽입 메서드 */
+void home::insertIntoTable(QString phoneNumber, QString name, QString userId, QString owner){
+    QSqlQuery sql;
+    sql.prepare("select create_time from phone_number where owner = :owner and user_id = :userId");
+    sql.bindValue(":owner", owner);
+    sql.bindValue(":userId", userId);
+    sql.exec();
+    sql.next();
+
+    table = ui->index_table;
+    table->insertRow(ui->index_table->rowCount());
+    table->setItem(table->rowCount() - 1, 0, new QTableWidgetItem(phoneNumber));
+    table->setItem(table->rowCount() - 1, 1, new QTableWidgetItem(name));
+    table->setItem(table->rowCount() - 1, 2, new QTableWidgetItem(userId));
+    table->setItem(table->rowCount() - 1, 3, new QTableWidgetItem(sql.value(0).toString()));
+
+    sql.exec();
+    sql.clear();
+}
+/* 테이블 행 수정하기 */
+void home::modifyTable(QString name, QString userId){
+    table = ui->index_table;
+
+    table->setItem(selectedRow, 1, new QTableWidgetItem(name));
+}
 /* 테이블 셀 클릭시 */
 void home::on_index_table_cellClicked(int row, int column)
 {
@@ -304,10 +302,6 @@ void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
         Logout *logout=new Logout();
         logout->logout(ph, this);
     }
-}
-
-QListWidget* home::getList(){
-    return ui->index_sideMenu;
 }
 
 void home::on_profile_modify_btn_clicked()
