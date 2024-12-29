@@ -99,13 +99,6 @@ void home::save(QWidget* widget){
     QWidget *myWidget = loader.load(&file, widget);
     file.close();
 }
-void home::openHome(){
-
-}
-void home::closeHome(){
-
-}
-
 void home::errorMsg(QString msg){
     QMessageBox box;
     box.setText(msg);
