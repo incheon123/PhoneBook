@@ -38,7 +38,6 @@ private slots:
 
     void on_index_table_cellClicked(int row, int column);
     void showContextMenu(const QPoint &pos);
-    void mousePressEvent(int, int);
     void on_index_sideMenu_itemClicked(QListWidgetItem *item);
 
     void on_profile_modify_btn_clicked();
@@ -76,8 +75,6 @@ private:
     void insertIntoTable(QString, QString, QString, QString);
     void modifyTable(QString, QString);
     void removeRowInTable(int row);
-    void setProfile();
-    QListWidget* getList();
     /* 임시 method */
     // void printSelectedRows();
 };
