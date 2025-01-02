@@ -24,9 +24,6 @@ public:
     ~home();
 
 public:
-    void save(QWidget* widget);
-    void openHome();
-    void closeHome();
     home* getUi();
     Ui::home *ui;
     void setPhoneBook(PhoneBook* ph){ this->ph = ph; }
@@ -65,7 +62,6 @@ private:
     int selectedRow;
 
 private:
-    void errorMsg(QString);
     void msg(QString);
     void loadUser();
     bool findId(QString, QString);

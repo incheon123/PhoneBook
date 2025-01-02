@@ -24,6 +24,7 @@ home::home(QWidget *parent)
 {
     ui->setupUi(this);
     QWidget::setAttribute(Qt::WA_DeleteOnClose);    //클로즈하면 메모리에서 삭제됨
+
     loadUser();
 
     list = ui->index_sideMenu;
@@ -43,7 +44,7 @@ home::home(QWidget *parent)
     connect(this, &home::decreaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
     connect(this, &home::increaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
 }
-
+#include "../../../../src_h/db_h/homeDb.h"
 /* show contextMenu */
 void home::showContextMenu(const QPoint &pos){
     QPoint globalPos = ui->index_table->mapToGlobal(pos);
@@ -66,43 +67,17 @@ void home::showContextMenu(const QPoint &pos){
             msg("성공적으로 수행했습니다");
         }
     }else{
-        /* 프로필 보기 */
+        /* 다른 사람 프로필 보기 */
         /* 새로운 화면 띄우기 */
-        Db* db = new Db;
-        QSqlQuery sql;
-        sql.prepare("select *, (select count(*) from phone_number where owner = :userId) as numOfPhoneNumber from user where user_id = :userId;");
-        sql.bindValue(":userId", userId);
-        sql.exec();
-        if(sql.next()){
-            profileOfAnother* poa = new profileOfAnother;
-            poa->setUserId(sql.value(0).toString());
-            poa->setUserPhone(sql.value(3).toString());
-            poa->setUserCreateTime(sql.value(2).toString());
-            poa->setUserNumOfPhoneNumber(sql.value(5).toString());
-            poa->show();
-        }
-        db->close();
-        sql.finish();
+        HomeDb hd;
+        hd.getAnotherProfile(userId)->show();
     }
+
 }
 home::~home()
 {
     delete profile;
     delete ui;
-}
-
-void home::save(QWidget* widget){
-    QUiLoader loader;
-    QFile file("C:\\Users\\oppor\\Documents\\phone\\home.ui");
-    file.open(QFile::ReadOnly);
-
-    QWidget *myWidget = loader.load(&file, widget);
-    file.close();
-}
-void home::errorMsg(QString msg){
-    QMessageBox box;
-    box.setText(msg);
-    box.exec();
 }
 void home::msg(QString msg){
     QMessageBox box;
@@ -196,14 +171,14 @@ void home::on_index_saveBtn_clicked()
     db = new Db();
 
     if(name.isEmpty()){
-        errorMsg("name를 채워주십시오");
+        msg("name를 채워주십시오");
         return;
     }
     if(userId.isEmpty()){
-        errorMsg("userId를 채워주십시오");
+        msg("userId를 채워주십시오");
         return;
     }else if(db->getUserId(userId).isNull()){
-        errorMsg("조회되지 않는 userId입니다");
+        msg("조회되지 않는 userId입니다");
         ui->userIdInput->setText("");
         return;
     }
