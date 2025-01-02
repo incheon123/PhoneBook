@@ -24,8 +24,10 @@ public:
     QString getUserPw(QString userPw);
     QString findUserPw(QString userId);
     UserAccount* getUser(QString userId);
+    bool isDbConnection(){ return this->connectionStat; }
 
 private:
+    bool connectionStat = false;
 
 private:
     QSqlDatabase db;
