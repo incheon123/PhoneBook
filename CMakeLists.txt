@@ -48,6 +48,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         properties.h
         src_h/account_h/logout.h
         src_c/account_s/logout.cpp
+        src_h/db_h/homeDb.h
+        src_c/db_s/homeDb.cpp
     )
 else()
     if(ANDROID)
