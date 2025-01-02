@@ -2,12 +2,9 @@
 
 Db::Db(){
 
-#ifndef DB_OPENED
-#define DB_OPENED
     db = QSqlDatabase::database();  // 기존 db 객체 가져옴
     db.open();
     qDebug() << "db is open";
-#endif
 
     if(db.isOpen()){
         qDebug() << "Database Connection success";
