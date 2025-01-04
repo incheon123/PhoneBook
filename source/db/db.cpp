@@ -1,15 +1,22 @@
-#include "../../src_h/db_h/db.h"
+#include "../../header/db/db.h"
 
 Db::Db(){
+
     db = QSqlDatabase::database();  // 기존 db 객체 가져옴
     db.open();
-    if(db.isOpen())
+
+    if(db.isOpen()){
         qDebug() << "Database Connection success";
-    else
+        connectionStat = true;
+    }else{
         qDebug() << "Database Connection failed";
+        connectionStat = false;
+    }
+
+    return;
 }
 Db::~Db(){
-    db.close();
+    close();
 }
 
 void Db::close(){

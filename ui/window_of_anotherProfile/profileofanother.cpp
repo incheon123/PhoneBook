@@ -1,4 +1,4 @@
-#include "profileofanother.h"
+#include "../../../../ui/window_of_anotherProfile/profileofanother.h"
 #include "ui_profileofanother.h"
 
 profileOfAnother::profileOfAnother(QWidget *parent)

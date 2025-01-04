@@ -1,5 +1,5 @@
-#include "../../../../src_h/account_h/findPassword.h"
-#include "../../../../src_h/db_h/db.h"
+#include "../../../../header/account/findPassword.h"
+#include "../../../../header/db/db.h"
 
 /* constructor */
 FindPassword::FindPassword(){

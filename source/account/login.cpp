@@ -1,4 +1,4 @@
-#include "../../../../src_h/account_h/login.h"
+#include "../../../../header/account/login.h"
 
 /* constructor */
 Login::Login(){
@@ -6,19 +6,23 @@ Login::Login(){
     m_result = false;
 }
 
-#include "../../../../src_h/db_h/db.h"
+#include "../../../../header/db/db.h"
 /* 로그인 */
 void Login::login(QString user_id, QString user_pw){
     db = new Db();
-    m_result = false;
+    m_result = false;   // 로그인 실패
 
-    if(db->login(user_id, user_pw).isNull())
-        return;
+    if(db->isDbConnection()){
+        if(db->login(user_id, user_pw).isNull())
+            return;
 
-    QList<UserPhoneNumInfo*>* list = getUserPhoneNumList(user_id);
-    setAccount(user_id, list);
+        QList<UserPhoneNumInfo*>* list = getUserPhoneNumList(user_id);
+        setAccount(user_id, list);
 
-    m_result = true;
+        m_result = true;    // 로그인 성공
+    }
+
+
     return;
 }
 /* 로그인한 유저가 소유하고 있는 타전화번호 목록 */

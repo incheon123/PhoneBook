@@ -1,5 +1,5 @@
-#include "../../../../src_h/profile_h/profile.h"
-#include "../../../../src_h/db_h/db.h"
+#include "../../header/profile/profile.h"
+#include "../../header/db/db.h"
 
 #include <QSqlQuery>
 #include <QLineEdit>
@@ -7,16 +7,9 @@
 Profile::Profile(QWidget *parent)
     : QWidget(parent)
 {
-
+    setProfile();
 }
 
-// Profile::Profile(){
-//     // this->userId = userId;
-//     // this->userPw = userPw;
-//     // this->userPhoneNumber = phoneNumber;
-//     // this->userNumOfPhoneNumber = numOfPhoneNumber;
-//     // this->userCreateTime = createTime;
-// }
 void Profile::init(QLineEdit* userId, QLineEdit* userPw,QLineEdit* userPhoneNumber,QLineEdit* userNumOfPhoneNumber,QLineEdit* userCreateTime){
     userId->setText(this->userId);
     userPw->setText(this->userPw);
@@ -25,10 +18,12 @@ void Profile::init(QLineEdit* userId, QLineEdit* userPw,QLineEdit* userPhoneNumb
     userCreateTime->setText(this->userCreateTime);
 }
 /* modify 버튼을 클릭시 */
-bool Profile::modify(){
+bool Profile::modifyPw(QString pw){
     Db* db = new Db();
     QSqlQuery sql;
-    sql.prepare("update user set user_pw = :userPw");
+    sql.prepare("update user set user_pw = :userPw where user_id = :userId");
+    sql.bindValue(":userPw", pw);
+    sql.bindValue(":userId", UserAccount::getInstance()->getUserId());
     sql.exec();
     int affected = sql.numRowsAffected();
 
@@ -37,14 +32,6 @@ bool Profile::modify(){
 
     return affected;
 }
-// QString select(QString query){
-//     QSqlQuery sql;
-//     sql.prepare(query);
-//     sql.exec();
-//     sql.next();
-//     sql.clear();
-//     return sql.value(0).toString();
-// };
 void Profile::setUserId(QString str){
     this->userId = UserAccount::getInstance()->getUserId();
 }
@@ -64,4 +51,12 @@ void Profile::setUserCreateTime(QString createTime){
 void Profile::updateNumOfPhoneNumber(QLineEdit* userNumOfPhoneNumber, int num){
     this->userNumOfPhoneNumber += num;
     userNumOfPhoneNumber->setText(QString::number(this->userNumOfPhoneNumber));
+}
+
+void Profile::setProfile(){
+    setUserId(UserAccount::getInstance()->getUserId());
+    setUserPw(UserAccount::getInstance()->getUserPw());
+    setUserPhoneNumber(UserAccount::getInstance()->getUserPhoneNumber());
+    setUserNumOfPhoneNumber(UserAccount::getInstance()->getUserNumOfPhoneNumber());
+    setUserCreateTime(UserAccount::getInstance()->getUserCreateTime());
 }

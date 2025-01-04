@@ -7,7 +7,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
-#include "../../src_h/user_h/userAccount.h"
+#include "../../header/user/userAccount.h"
 
 class Db : public QObject{
     Q_OBJECT
@@ -24,8 +24,10 @@ public:
     QString getUserPw(QString userPw);
     QString findUserPw(QString userId);
     UserAccount* getUser(QString userId);
+    bool isDbConnection(){ return this->connectionStat; }
 
 private:
+    bool connectionStat = false;
 
 private:
     QSqlDatabase db;
