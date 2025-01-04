@@ -1,4 +1,4 @@
-#include "../../../../src_h/account_h/login.h"
+#include "../../../../header/account/login.h"
 
 /* constructor */
 Login::Login(){
@@ -6,7 +6,7 @@ Login::Login(){
     m_result = false;
 }
 
-#include "../../../../src_h/db_h/db.h"
+#include "../../../../header/db/db.h"
 /* 로그인 */
 void Login::login(QString user_id, QString user_pw){
     db = new Db();

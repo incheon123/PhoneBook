@@ -7,7 +7,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
-#include "../../src_h/user_h/userAccount.h"
+#include "../../header/user/userAccount.h"
 
 class Db : public QObject{
     Q_OBJECT

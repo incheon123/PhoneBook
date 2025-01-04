@@ -9,10 +9,10 @@
 #include <QMessageBox>
 #include <QLineEdit>
 
-#include "src_h/db_h/db.h"
-#include "home.h"
+#include "header/db/db.h"
+#include "./ui/home/home.h"
 
-#include "../../../../src_h/account_h/signUp.h"
+#include "../../../../header/account/signUp.h"
 
 #define SIGNIN 1
 #define FIND_ACCOUNT 2

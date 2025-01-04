@@ -1,4 +1,4 @@
-#include "../../../../src_h/db_h/homeDb.h"
+#include "../../../../header/db/homeDb.h"
 
 #include <QSqlQuery>
 
@@ -13,13 +13,15 @@ profileOfAnother* HomeDb::getAnotherProfile(QString userId){
     sql.bindValue(query_parameter, userId);
     sql.exec();
 
-
+    profileOfAnother* poa = nullptr;
     if(sql.next()){
-        profileOfAnother* poa = new profileOfAnother;
+        poa = new profileOfAnother;
         poa->setUserId(sql.value(0).toString());
         poa->setUserPhone(sql.value(3).toString());
         poa->setUserCreateTime(sql.value(2).toString());
         poa->setUserNumOfPhoneNumber(sql.value(5).toString());
     }
 
+
+    return poa;
 }

@@ -6,8 +6,8 @@
 #include <QListWidget>
 #include <QLabel>
 
-#include "../../../../src_h/db_h/db.h"
-#include "../../../../src_h/profile_h/profile.h"
+#include "../../../../header/db/db.h"
+#include "../../../../header/profile/profile.h"
 
 class PhoneBook;
 

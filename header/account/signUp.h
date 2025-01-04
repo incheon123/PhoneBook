@@ -6,7 +6,7 @@
 #include <QSqlQuery>
 #include <QLineEdit>
 
-#include "../../../../src_h/db_h/db.h"
+#include "../../../../header/db/db.h"
 
 class SignUp : public QWidget{
     Q_OBJECT

@@ -1,8 +1,8 @@
 #include "phonebook.h"
-#include "./ui_phonebook.h"
+#include "./ui/welcome/ui_phonebook.h"
 
-#include "../../../../src_h/user_h/userAccount.h"
-#include "../../../../home.h"
+#include "../../../../header/user/userAccount.h"
+#include "../../../../ui/home/home.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -46,7 +46,7 @@ void PhoneBook::switchPage(int p)
         stack->setCurrentIndex(p-1);
     }
 }
-#include "../../../../src_h/account_h/login.h"
+#include "../../../../header/account/login.h"
 /* login  */
 void PhoneBook::on_signin_clicked()
 {
@@ -98,7 +98,7 @@ void PhoneBook::on_forgetAccount_clicked()
 void PhoneBook::on_signup_user_id_dp_chk_btn_clicked(){
     signup->chkDuplicate(ui->signup_user_id_input, ui->signup_user_id_dp_chk_lb);
 }
-#include "../../../../src_h/account_h/signUp.h"
+#include "../../../../header/account/signUp.h"
 /* 회원가입 유효성 체크 */
 void PhoneBook::on_signup_submit_btn_clicked()
 {
@@ -156,7 +156,7 @@ void PhoneBook::alertMsgBox(QString content){
 
     return;
 }
-#include "../../../../src_h/account_h/findPassword.h"
+#include "../../../../header/account/findPassword.h"
 /* find pw */
 void PhoneBook::on_submit_clicked()
 {
