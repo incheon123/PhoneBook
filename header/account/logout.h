@@ -2,8 +2,8 @@
 #define LOGOUT_H
 
 #include <QWidget>
-#include "../../../../phonebook.h"
-#include "../../../../home.h"
+#include "../../phonebook.h"
+#include "../../ui/home/home.h"
 
 class Logout : public QWidget{
     Q_OBJECT

@@ -1,4 +1,4 @@
-#include "../../../../src_h/account_h/signUp.h"
+#include "../../../../header/account/signUp.h"
 
 SignUp::SignUp(QWidget *parent)
     : QWidget(parent){

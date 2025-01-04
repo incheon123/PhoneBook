@@ -1,10 +1,10 @@
-#include "home.h"
+#include "../../../../ui/home/home.h"
 #include "ui_home.h"
 // #include <../../../../../phone/phonebook.h>
-#include "../../../../src_h/user_h/userAccount.h"
-#include "../../../../src_h/user_h/userPhoneNumInfo.h"
-#include "../../../../profileofanother.h"
-#include "./phonebook.h"
+#include "../../../../header/user/userAccount.h"
+#include "../../../../header/user/userPhoneNumInfo.h"
+#include "../../../../ui/window_of_anotherProfile/profileofanother.h"
+#include "../../../../phonebook.h"
 
 #include <QUiLoader>
 #include <QFile>
@@ -44,7 +44,7 @@ home::home(QWidget *parent)
     connect(this, &home::decreaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
     connect(this, &home::increaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
 }
-#include "../../../../src_h/db_h/homeDb.h"
+#include "../../../../header/db/homeDb.h"
 /* show contextMenu */
 void home::showContextMenu(const QPoint &pos){
     QPoint globalPos = ui->index_table->mapToGlobal(pos);
@@ -255,7 +255,7 @@ void home::on_index_table_cellClicked(int row, int column)
 
     selectedRow = row;
 }
-#include "../../../../src_h/account_h/logout.h"
+#include "../../../../header/account/logout.h"
 /* switch page */
 void home::on_index_sideMenu_itemClicked(QListWidgetItem *item)
 {

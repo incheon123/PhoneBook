@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "../../../../profileofanother.h"
+#include "../../ui/window_of_anotherProfile/profileofanother.h"
 
 class HomeDb : public QWidget{
     Q_OBJECT
