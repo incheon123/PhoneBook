@@ -2,6 +2,8 @@
 #define HOMEDB_H
 
 #include <QWidget>
+#include <QSqlQuery>
+#include <cstdarg>
 
 #include "../../ui/window_of_anotherProfile/profileofanother.h"
 
@@ -14,7 +16,7 @@ public:
 public:
     profileOfAnother* getAnotherProfile(QString);
 private:
-    void sqlSelect();
+    QSqlQuery sqlSelect(QString, int n, ...);
     void sqlUpdate();
     void sqlDelete();
 private:
