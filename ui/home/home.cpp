@@ -70,8 +70,8 @@ void home::showContextMenu(const QPoint &pos){
         /* 다른 사람 프로필 보기 */
         /* 새로운 화면 띄우기 */
         HomeDb hd;
-        // hd.getAnotherProfile(userId)->show();
-        hd.getAnotherProfile(userId);
+        hd.getAnotherProfile(userId)->show();
+        // hd.getAnotherProfile(userId);
     }
 
 }

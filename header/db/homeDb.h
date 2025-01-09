@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QSqlQuery>
 #include <cstdarg>
+#include <vector>
+#include <map>
 
 #include "../../ui/window_of_anotherProfile/profileofanother.h"
 
@@ -16,7 +18,7 @@ public:
 public:
     profileOfAnother* getAnotherProfile(QString);
 private:
-    QSqlQuery sqlSelect(QString, int n, ...);
+    QSqlQuery sqlSelect(QString, int n, std::vector<QString>, std::vector<QString>);
     void sqlUpdate();
     void sqlDelete();
 private:
