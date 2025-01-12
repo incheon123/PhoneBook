@@ -5,7 +5,6 @@
 #include <QSqlQuery>
 #include <cstdarg>
 #include <vector>
-#include <map>
 
 #include "../../ui/window_of_anotherProfile/profileofanother.h"
 
@@ -17,10 +16,15 @@ public:
     ~HomeDb(){};
 public:
     profileOfAnother* getAnotherProfile(QString);
+    bool findId(QString owner, QString userId);
+    QSqlQuery findId(QString userId);
+    void save(QString phoneNumber, QString name, QString userId, QString owner);
+    void modify(QString owner, QString name, QString userId);
+    bool remove(QString userId, QString owner);
+    QSqlQuery getCreatetime(QString owner, QString userId);
 private:
-    QSqlQuery sqlSelect(QString, int n, std::vector<QString>, std::vector<QString>);
-    void sqlUpdate();
-    void sqlDelete();
+    QSqlQuery execQuery(QString, int n, std::vector<QString>, std::vector<QString>);
+
 private:
 
 };

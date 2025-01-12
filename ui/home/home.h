@@ -8,6 +8,7 @@
 
 #include "../../../../header/db/db.h"
 #include "../../../../header/profile/profile.h"
+#include "../../../../header/db/homeDb.h"
 
 class PhoneBook;
 
@@ -45,6 +46,7 @@ signals:
     void increaseNumOfPhoneNumber(QLineEdit*, int num);
 
 private:
+    HomeDb hd;
     PhoneBook* ph;
     Profile* profile;
     QTableWidget* table;

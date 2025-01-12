@@ -4,7 +4,6 @@
 #include "../../../../header/user/userAccount.h"
 #include "../../../../header/user/userPhoneNumInfo.h"
 #include "../../../../ui/window_of_anotherProfile/profileofanother.h"
-#include "../../../../phonebook.h"
 
 #include <QUiLoader>
 #include <QFile>
@@ -44,7 +43,11 @@ home::home(QWidget *parent)
     connect(this, &home::decreaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
     connect(this, &home::increaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
 }
-#include "../../../../header/db/homeDb.h"
+home::~home()
+{
+    delete profile;
+    delete ui;
+}
 /* show contextMenu */
 void home::showContextMenu(const QPoint &pos){
     QPoint globalPos = ui->index_table->mapToGlobal(pos);
@@ -58,32 +61,29 @@ void home::showContextMenu(const QPoint &pos){
     menu.addAction("Delete");
     menu.addAction("프로필 보기");
 
+
+    // menu.setAttribute(Qt::WA_DeleteOnClose);
+
     QAction* selectedItem = menu.exec(globalPos);
 
-    if(selectedItem->text().compare("Delete") == 0){
-        if(remove(userId, owner)){
-            removeRowInTable(row);
-            emit decreaseNumOfPhoneNumber(ui->profile_count_input, -1);
-            msg("성공적으로 수행했습니다");
+    if(!(selectedItem == NULL)){
+
+        if(selectedItem->text().compare("Delete") == 0){
+            if(hd.remove(userId, owner)){
+                removeRowInTable(row);
+                emit decreaseNumOfPhoneNumber(ui->profile_count_input, -1);
+                msg("성공적으로 수행했습니다");
+            }
         }
-    }else{
-        /* 다른 사람 프로필 보기 */
-        /* 새로운 화면 띄우기 */
-        HomeDb hd;
-        hd.getAnotherProfile(userId)->show();
-        // hd.getAnotherProfile(userId);
+        if(selectedItem->text().compare("프로필 보기") == 0){
+            /* 다른 사람 프로필 보기 */
+            /* 새로운 화면 띄우기 */
+            HomeDb hd;
+            hd.getAnotherProfile(userId)->show();
+        }
+
     }
 
-}
-home::~home()
-{
-    delete profile;
-    delete ui;
-}
-void home::msg(QString msg){
-    QMessageBox box;
-    box.setText(msg);
-    box.exec();
 }
 
 void home::loadUser(){
@@ -108,59 +108,7 @@ void home::loadUser(){
 void home::on_index_deleteBtn_clicked()
 {
 }
-/* user의 전화번호 저장 리스트에서 찾아야됨 */
-bool home::findId(QString owner, QString userId){
-    QSqlQuery sql;
-    sql.prepare("select user_id from phone_number where owner = :owner and user_id = :userId");
-    sql.bindValue(":owner", owner);
-    sql.bindValue(":userId", userId);
-    sql.exec();
-    sql.next();
 
-    QString id = sql.value(0).toString();
-    sql.clear();
-
-    return id.isNull() ? false : true;  // 없으면 삽입(true)
-}
-/* 데이터베이스에 삽입시 */
-void home::save(QString phoneNumber, QString name, QString userId, QString owner){
-    QSqlQuery sql;
-    sql.prepare("insert into phone_number(number, name, user_id, owner) values(:phoneNumber, :name, :userId, :owner)");
-    sql.bindValue(":phoneNumber", phoneNumber);
-    sql.bindValue(":name", name);
-    sql.bindValue(":userId", userId);
-    sql.bindValue(":owner", owner);
-
-    sql.exec();
-    sql.clear();
-}
-/* 기존 행 수정시 */
-void home::modify(QString owner, QString name, QString userId){
-    QSqlQuery sql;
-    sql.prepare("update phone_number set name = :name where owner = :owner and user_id = :userId");
-    sql.bindValue(":name", name);
-    sql.bindValue(":owner", owner);
-    sql.bindValue(":userId", userId);
-    sql.exec();
-
-
-    sql.clear();
-}
-/* remove row in db */
-bool home::remove(QString userId, QString owner){
-    Db *db = new Db();
-    QSqlQuery sql;
-    sql.prepare("delete from phone_number where owner = :owner and user_id = :userId");
-    sql.bindValue(":owner", owner);
-    sql.bindValue(":userId", userId);
-    sql.exec();
-    bool result = sql.numRowsAffected();
-    sql.finish();
-    sql.clear();
-    db->close();
-
-    return result;
-}
 
 /* 전화번호 저장 버튼 클릭시 --------------------------------------------------------------------------------------*/
 void home::on_index_saveBtn_clicked()
@@ -185,28 +133,20 @@ void home::on_index_saveBtn_clicked()
     }
 
     /* 데이터베이스에 삽입/추가 */
-    if(findId(owner, userId)){
-        modify(owner, name, userId);
+    if(hd.findId(owner, userId)){
+        hd.modify(owner, name, userId);
         msg("성공적으로 수정했습니다");
 
         modifyTable(name, userId);
     }else{
-        QString phoneNumber;
-        QSqlQuery sql;
-        sql.prepare("select phone_number from user where user_id = :userId");
-        sql.bindValue(":userId", userId);
-        sql.exec();
-        sql.next();
-        phoneNumber = sql.value(0).toString();
+        QString phoneNumber = hd.findId(userId).value(0).toString();
 
-        save(phoneNumber, name, userId, owner);
+        hd.save(phoneNumber, name, userId, owner);
         msg("성공적으로 추가했습니다!");
 
         /* 테이블에 행 추가 */
         insertIntoTable(phoneNumber, name, userId, owner);
         emit increaseNumOfPhoneNumber(ui->profile_count_input, 1);
-
-        sql.clear();
     }
 
 
@@ -219,12 +159,8 @@ void home::removeRowInTable(int row){
 }
 /* 테이블에 행 삽입 메서드 */
 void home::insertIntoTable(QString phoneNumber, QString name, QString userId, QString owner){
-    QSqlQuery sql;
-    sql.prepare("select create_time from phone_number where owner = :owner and user_id = :userId");
-    sql.bindValue(":owner", owner);
-    sql.bindValue(":userId", userId);
-    sql.exec();
-    sql.next();
+    HomeDb hd;
+    QSqlQuery sql = hd.getCreatetime(owner, userId);
 
     table = ui->index_table;
     table->insertRow(ui->index_table->rowCount());
@@ -247,7 +183,7 @@ void home::on_index_table_cellClicked(int row, int column)
 {
     table = ui->index_table;
 
-    QString phoneNumber = table->item(row,0)->text();
+    // QString phoneNumber = table->item(row,0)->text();
     QString name = table->item(row,1)->text();
     QString userId = table->item(row,2)->text();
 
@@ -278,4 +214,9 @@ void home::on_profile_modify_btn_clicked()
     bool result = profile->modifyPw(ui->profile_userPw_input->text());
     if(result)  msg("성공적으로 수행했습니다");
     else        msg("실패하였습니다");
+}
+void home::msg(QString msg){
+    QMessageBox box;
+    box.setText(msg);
+    box.exec();
 }
