@@ -3,6 +3,9 @@
 
 #define MARK ":"
 #define VAR_NAME(var) #var
+#define PLACEHOLDER(var) MARK VAR_NAME(var)
+
+
 // --------------------------------------------------------------------
 /*
 
@@ -27,11 +30,11 @@ QSqlQuery HomeDb::execQuery(QString query, int count, std::vector<QString> place
 QSqlQuery sql;
 
 
-
+/* 생성시간 가져오는 함수 */
 QSqlQuery HomeDb::getCreatetime(QString owner, QString userId){
     QSqlQuery sql = execQuery("select create_time from phone_number where owner = :owner and user_id = :userId",
                               2,
-                              std::vector<QString>{(MARK VAR_NAME(owner)), (MARK VAR_NAME(userId))},
+                              std::vector<QString>{(PLACEHOLDER(owner)), (PLACEHOLDER(userId))},
                               std::vector<QString>{owner, userId}
                               );
     sql.next();
@@ -39,11 +42,11 @@ QSqlQuery HomeDb::getCreatetime(QString owner, QString userId){
 
     return sql;
 }
-
+/* 아이디 가져오는 함수 */
 QSqlQuery HomeDb::findId(QString userId){
     QSqlQuery sql = execQuery("select phone_number from user where user_id = :userId",
                               1,
-                              std::vector<QString>{(MARK VAR_NAME(userId))},
+                              std::vector<QString>{(PLACEHOLDER(userId))},
                               std::vector<QString>{userId}
                               );
     sql.next();
@@ -54,10 +57,10 @@ QSqlQuery HomeDb::findId(QString userId){
 bool HomeDb::findId(QString owner, QString userId){
 
     QSqlQuery sql = execQuery("select user_id from phone_number where owner = :owner and user_id = :userId",
-              2,
-              std::vector<QString>{(MARK VAR_NAME(owner)), (MARK VAR_NAME(userId))},
-              std::vector<QString>{owner, userId}
-            );
+                              2,
+                              std::vector<QString>{(PLACEHOLDER(owner)), (PLACEHOLDER(userId))},
+                              std::vector<QString>{owner, userId}
+                              );
 
     sql.next();
     QString id = sql.value(0).toString();
@@ -69,7 +72,7 @@ bool HomeDb::findId(QString owner, QString userId){
 void HomeDb::save(QString phoneNumber, QString name, QString userId, QString owner){
     QSqlQuery sql = execQuery("insert into phone_number(number, name, user_id, owner) values(:phoneNumber, :name, :userId, :owner)",
                               4,
-                              std::vector<QString>{(MARK VAR_NAME(phoneNumber)), (MARK VAR_NAME(name)), (MARK VAR_NAME(userId)), (MARK VAR_NAME(owner))},
+                              std::vector<QString>{(PLACEHOLDER(phoneNumber)), (PLACEHOLDER(name)), (PLACEHOLDER(userId)), (PLACEHOLDER(owner))},
                               std::vector<QString>{phoneNumber, name, userId, owner}
                               );
 
@@ -79,7 +82,7 @@ void HomeDb::save(QString phoneNumber, QString name, QString userId, QString own
 void HomeDb::modify(QString owner, QString name, QString userId){
     QSqlQuery sql = execQuery("update phone_number set name = :name where owner = :owner and user_id = :userId",
                               3,
-                              std::vector<QString>{(MARK VAR_NAME(owner)), (MARK VAR_NAME(name)), (MARK VAR_NAME(userId))},
+                              std::vector<QString>{(PLACEHOLDER(owner)), (PLACEHOLDER(name)), (PLACEHOLDER(userId))},
                               std::vector<QString>{owner, name, userId}
                               );
     sql.clear();
@@ -87,10 +90,10 @@ void HomeDb::modify(QString owner, QString name, QString userId){
 /* remove row in db */
 bool HomeDb::remove(QString userId, QString owner){
     QSqlQuery sql = execQuery("delete from phone_number where owner = :owner and user_id = :userId",
-                     2,
-                  std::vector<QString>{(MARK VAR_NAME(userId)), (MARK VAR_NAME(owner))},
-                  std::vector<QString>{userId, owner}
-                    );
+                              2,
+                              std::vector<QString>{(PLACEHOLDER(userId)), (PLACEHOLDER(owner))},
+                              std::vector<QString>{userId, owner}
+                              );
 
 
     bool result = sql.numRowsAffected();
@@ -100,11 +103,11 @@ bool HomeDb::remove(QString userId, QString owner){
 
     return result;
 }
-// --------------------------------------------------------------------
+/* 다른 사람 프로필 가져오는 함수 */
 profileOfAnother* HomeDb::getAnotherProfile(QString userId){
     QSqlQuery sql = execQuery("select *, (select count(*) from phone_number where owner = :userId) as numOfPhoneNumber from user where user_id = :userId;",
                               1,
-                              std::vector<QString>{(MARK VAR_NAME(userId))},
+                              std::vector<QString>{(PLACEHOLDER(userId))},
                               std::vector<QString>{userId}
                             );
 

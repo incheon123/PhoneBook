@@ -13,10 +13,12 @@ set(CMAKE_AUTORCC ON)   # rcc(resource compiler, is used to embed resources into
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS UiTools)
-find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)      #
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets) #
+find_package(Qt6 REQUIRED COMPONENTS UiTools)                   #
+find_package(Qt6 REQUIRED COMPONENTS Core)                      #
+find_package(Qt6 REQUIRED COMPONENTS Network)                   #네트웤
+
 
 set(PROJECT_SOURCES
         main.cpp
@@ -57,6 +59,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         source/account/logout.cpp
         header/db/homeDb.h
         source/db/homeDb.cpp
+        header/chat/client.h
     )
 else()
     if(ANDROID)
@@ -76,6 +79,7 @@ target_link_libraries(PhoneBook PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(PhoneBook PRIVATE Qt6::Sql)
 target_link_libraries(PhoneBook PRIVATE Qt6::UiTools)
 target_link_libraries(PhoneBook PRIVATE Qt6::Core)
+target_link_libraries(PhoneBook PRIVATE Qt6::Network)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
