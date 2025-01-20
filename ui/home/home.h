@@ -5,6 +5,7 @@
 #include <QTableWidget>
 #include <QListWidget>
 #include <QLabel>
+#include <QVector>
 
 #include "../../../../header/db/db.h"
 #include "../../../../header/profile/profile.h"
@@ -62,6 +63,7 @@ private:
     QString newName;
     QString newUserId;
     int selectedRow;
+    QVector<QString> context_menus;
 
 private:
     void msg(QString);

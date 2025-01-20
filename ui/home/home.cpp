@@ -21,6 +21,21 @@ home::home(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::home)
 {
+
+    /* file */
+    QFile file("C:/Users/oppor/Documents/phone/resource/chat_menu.txt");
+    file.open(QIODevice::ReadOnly);
+
+    QTextStream in(&file);
+
+    while(!in.atEnd()) {
+        QString ctxMenu = in.readLine();
+        context_menus.append(ctxMenu);
+    }
+
+    file.close();
+    /* end file */
+
     ui->setupUi(this);
     QWidget::setAttribute(Qt::WA_DeleteOnClose);    //클로즈하면 메모리에서 삭제됨
 
@@ -57,9 +72,10 @@ void home::showContextMenu(const QPoint &pos){
     QString owner = UserAccount::getInstance()->getUserId();    // owner
     QString userId = ui->index_table->item(row, 2)->text();     // userId
 
+    /* add menu */
     QMenu menu;
-    menu.addAction("Delete");
-    menu.addAction("프로필 보기");
+    for(int i = 0; i < context_menus.size(); i++)
+        menu.addAction(context_menus.at(i));
 
 
     // menu.setAttribute(Qt::WA_DeleteOnClose);
@@ -75,7 +91,7 @@ void home::showContextMenu(const QPoint &pos){
                 msg("성공적으로 수행했습니다");
             }
         }
-        if(selectedItem->text().compare("프로필 보기") == 0){
+        if(selectedItem->text().compare("View Profile") == 0){
             /* 다른 사람 프로필 보기 */
             /* 새로운 화면 띄우기 */
             HomeDb hd;

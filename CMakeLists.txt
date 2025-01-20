@@ -59,7 +59,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         source/account/logout.cpp
         header/db/homeDb.h
         source/db/homeDb.cpp
-        header/chat/client.h
+        resource/chat_menu.txt
+
+
+        ui/chat/chatbox.h ui/chat/chatbox.cpp ui/chat/chatbox.ui
     )
 else()
     if(ANDROID)
