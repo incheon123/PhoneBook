@@ -15,9 +15,6 @@ int main(int argc, char *argv[])
     db.setPassword(PASSWORD);
 
     PhoneBook w;
-    // w.show();
-
-    ChatBox cb;
-    cb.show();
+    w.show();
     return a.exec();
 }

@@ -57,12 +57,15 @@ home::home(QWidget *parent)
 
     connect(this, &home::decreaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
     connect(this, &home::increaseNumOfPhoneNumber, profile, &Profile::updateNumOfPhoneNumber);
+
+    chat = new ChatBox();
 }
 home::~home()
 {
     delete profile;
     delete ui;
 }
+
 /* show contextMenu */
 void home::showContextMenu(const QPoint &pos){
     QPoint globalPos = ui->index_table->mapToGlobal(pos);
@@ -96,6 +99,10 @@ void home::showContextMenu(const QPoint &pos){
             /* 새로운 화면 띄우기 */
             HomeDb hd;
             hd.getAnotherProfile(userId)->show();
+        }
+        if(selectedItem->text().compare("Chat") == 0){
+            /* begin chatting */
+            chat->show();
         }
 
     }

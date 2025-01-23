@@ -1,0 +1,4 @@
+#ifndef CHATMESSAGE_H
+#define CHATMESSAGE_H
+
+#endif // CHATMESSAGE_H

@@ -10,6 +10,7 @@
 #include "../../../../header/db/db.h"
 #include "../../../../header/profile/profile.h"
 #include "../../../../header/db/homeDb.h"
+#include "../../../../ui/chat/chatbox.h"
 
 class PhoneBook;
 
@@ -47,6 +48,7 @@ signals:
     void increaseNumOfPhoneNumber(QLineEdit*, int num);
 
 private:
+    ChatBox* chat;
     HomeDb hd;
     PhoneBook* ph;
     Profile* profile;
