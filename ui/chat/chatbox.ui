@@ -148,24 +148,6 @@
     <string notr="true">QListWidget{background-color:lightblue;}
 QListWidget::item{color:black; display:inline;}</string>
    </property>
-   <item>
-    <property name="text">
-     <string>안녕하세요</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>네 안녕하세요</string>
-    </property>
-    <property name="textAlignment">
-     <set>AlignTrailing|AlignVCenter</set>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>누구신지요~?</string>
-    </property>
-   </item>
   </widget>
  </widget>
  <resources/>

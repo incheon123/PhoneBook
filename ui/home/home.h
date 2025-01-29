@@ -6,11 +6,13 @@
 #include <QListWidget>
 #include <QLabel>
 #include <QVector>
+#include <QTcpSocket>
 
 #include "../../../../header/db/db.h"
 #include "../../../../header/profile/profile.h"
 #include "../../../../header/db/homeDb.h"
 #include "../../../../ui/chat/chatbox.h"
+#include "../../../../ui/chat/chatSocket.h"
 
 class PhoneBook;
 
@@ -48,6 +50,7 @@ signals:
     void increaseNumOfPhoneNumber(QLineEdit*, int num);
 
 private:
+    ChatSocket* chatSocket;
     ChatBox* chat;
     HomeDb hd;
     PhoneBook* ph;
@@ -66,6 +69,7 @@ private:
     QString newUserId;
     int selectedRow;
     QVector<QString> context_menus;
+    QTcpSocket* tcp;
 
 private:
     void msg(QString);

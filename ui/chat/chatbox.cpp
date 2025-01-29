@@ -8,9 +8,11 @@ ChatBox::ChatBox(QWidget *parent)
     , ui(new Ui::ChatBox)
 {
     /* 텍스트가 실릴 리스트위젯 */
-    listWidget = ui->listWidget;
-    lineEdit = ui->lineEdit;
+    // listWidget = ui->listWidget;
+    // lineEdit = ui->lineEdit;
     ui->setupUi(this);
+
+
 }
 
 ChatBox::~ChatBox()
@@ -20,16 +22,20 @@ ChatBox::~ChatBox()
 
 void ChatBox::sendMessage(QString message){
 
-    QListWidgetItem* item;
+    QListWidgetItem* item = new QListWidgetItem;
     item->setText(message);
 
-    listWidget->setItemWidget(item, this);
+    item->setTextAlignment(Qt::AlignRight);
 
+    ui->listWidget->addItem(item);
+
+
+    return;
 }
 
 void ChatBox::on_pushButton_clicked()
 {
 
-    sendMessage(lineEdit->text());
+    sendMessage(ui->lineEdit->text());
 }
 

@@ -65,6 +65,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ui/chat/chatbox.h ui/chat/chatbox.cpp ui/chat/chatbox.ui
         ui/chat/chatMessage.cpp
         ui/chat/chatMessage.h
+        ui/chat/chatSocket.h ui/chat/chatSocket.cpp
     )
 else()
     if(ANDROID)

@@ -14,20 +14,26 @@ class ChatBox : public QWidget
 {
     Q_OBJECT
 
+
+
 public:
-    explicit ChatBox(QWidget *parent = nullptr);
     ~ChatBox();
+    explicit ChatBox(QWidget *parent = nullptr);
+    void receiveMessage(QString message);
 
 private slots:
     void on_pushButton_clicked();
 
-private:
+public slots:
     void sendMessage(QString message);
 
 private:
     Ui::ChatBox *ui;
     QListWidget* listWidget;
     QLineEdit* lineEdit;
+
+
+
 };
 
 #endif // CHATBOX_H

@@ -1,6 +1,5 @@
-#include "../../../../ui/home/home.h"
 #include "ui_home.h"
-// #include <../../../../../phone/phonebook.h>
+#include "../../../../ui/home/home.h"
 #include "../../../../header/user/userAccount.h"
 #include "../../../../header/user/userPhoneNumInfo.h"
 #include "../../../../ui/window_of_anotherProfile/profileofanother.h"
@@ -103,6 +102,10 @@ void home::showContextMenu(const QPoint &pos){
         if(selectedItem->text().compare("Chat") == 0){
             /* begin chatting */
             chat->show();
+
+            /* connect to host */
+            chatSocket = new ChatSocket(chat);
+            chatSocket->startChat();
         }
 
     }
